@@ -1,5 +1,4 @@
-# trainingqtu
-Quản lý Đào tạo
+#Quản lý Đào tạo
 
 ##1. Quy định chung:
 
