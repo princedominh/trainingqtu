@@ -7,3 +7,4 @@ Về cơ sở dữ liệu: Thống nhất tên csdl cài đặt tại các máy 
 Về công cụ:
 - MySQL Workbench
 - Visual Studio 2013
+- Astah Community (http://astah.net/editions/community)
