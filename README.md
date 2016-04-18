@@ -2,7 +2,7 @@
 
 ##1. Quy định chung:
 
-Về cơ sở dữ liệu: Thống nhất tên csdl cài đặt tại các máy là Mysql **trainingmanagement**, giống cả user và pass: **trainingmanagement**
+Về cơ sở dữ liệu: Thống nhất tên csdl cài đặt tại các máy là Mysql **tm_qtu**, giống cả user và pass: **tm_qtu**
 
 Về công cụ:
 - MySQL Workbench
