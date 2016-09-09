@@ -1,19 +1,20 @@
-# This file is a "template" of what your parameters.yml file should look like
-# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
-# http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host:     127.0.0.1
-    database_port:     ~
-    database_name:     symfony
-    database_user:     root
-    database_password: ~
-    # You should uncomment this if you want use pdo_sqlite
-    # database_path: "%kernel.root_dir%/data.db3"
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: cf_giathien
+    database_user: cf_giathien
+    database_password: cf_giathien
+    locale: vi
+    mailer_transport: gmail
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: giathien_caphe_20tonducthang
 
-    mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
-
-    # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    sonata.coffee.groupicon: "<i class='fa fa-coffee'></i>"
+    sonata.inventory.groupicon: "<i class='fa fa-industry'></i>"
+    sonata.material.groupicon: "<i class='fa fa-lemon-o'></i>"
+    sonata.news.groupicon: "<i class='fa fa-newspaper-o'></i>"
+    sonata.user.groupicon: "<i class='fa fa-users'></i>"
+     
+    sonata.admin.configuration.filters.persist: true

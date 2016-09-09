@@ -17,8 +17,26 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
             
+            // These are the other bundles the SonataAdminBundle relies on
+            new FOS\UserBundle\FOSUserBundle(),
+            new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
+//                        new Sonata\UserBundle\SonataUserBundle(),
+            new Sonata\CoreBundle\SonataCoreBundle(),
+            new Sonata\BlockBundle\SonataBlockBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
+            new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
+            
+            // And finally, the storage and SonataAdminBundle
+            new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
+            
+//            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(), //not yet install
+            
+            //You need to add this dependency to make media functional
+//            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+
             new QTU\CurriculumBundle\QTUCurriculumBundle(),
         );
 

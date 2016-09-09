@@ -1,10 +1,9 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: sonata.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-#    - { resource: sonata.yml }
-parameters:
-    locale: vi
+
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 
@@ -21,6 +20,7 @@ framework:
     #serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
+        #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
@@ -34,7 +34,11 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-
+    form:
+        resources:
+            - 'SonataCoreBundle:Form:datepicker.html.twig'
+    date:
+        timezone: Asia/Ho_Chi_Minh
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -51,6 +55,8 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
+        types:
+            json: Sonata\Doctrine\Types\JsonType
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -58,8 +64,10 @@ doctrine:
 #        auto_mapping: true
         entity_managers:
             default:
-                auto_mapping: true
                 mappings:
+                    ApplicationSonataUserBundle: ~
+                    SonataUserBundle: ~
+                    FOSUserBundle: ~
                     translatable:
                         type: annotation
                         alias: Gedmo
@@ -70,7 +78,11 @@ doctrine:
                         alias: Gedmo
                         prefix: GedmoTreeEntity
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
-
+#                    sluggable: 
+#                        type: annotation
+#                        alias: Gedmo
+#                        prefix: GedmoSluggableEntity
+#                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Sluggable/Entity"
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
@@ -78,3 +90,33 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+fos_user:
+    db_driver:      orm # can be orm or odm
+    firewall_name:  main
+    user_class:     Application\Sonata\UserBundle\Entity\User
+
+
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager                    # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
+
+    service:
+        user_manager: sonata.user.orm.user_manager                      # If you're using doctrine orm (use sonata.user.mongodb.user_manager for mongodb)
+        
+    profile:
+        # Authentication Form
+        form:
+            type:               fos_user_profile
+            handler:            fos_user.profile.form.handler.default
+            name:               fos_user_profile_form
+            validation_groups:  [Authentication] # Please note : this is not the default value    
+
+# override FOSUser default serialization
+#jms_serializer:
+#    metadata:
+#        directories:
+#            -
+#                path: "%kernel.root_dir%/../vendor/sonata-project/user-bundle/Sonata/UserBundle/Resources/config/serializer/FOSUserBundle"
+#                namespace_prefix: 'FOS\UserBundle'
+
