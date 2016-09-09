@@ -1,3 +1,15 @@
+qtu_mark:
+    resource: "@QTUMarkBundle/Resources/config/routing.yml"
+    prefix:   /
+
+qtu_student_lecturer:
+    resource: "@QTUStudentLecturerBundle/Resources/config/routing.yml"
+    prefix:   /
+
+qtu_department_major:
+    resource: "@QTUDepartmentMajorBundle/Resources/config/routing.yml"
+    prefix:   /
+
 #app:
 #    resource: "@AppBundle/Controller/"
 #    type:     annotation

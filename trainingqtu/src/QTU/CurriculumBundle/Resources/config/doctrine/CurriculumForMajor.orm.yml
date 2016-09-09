@@ -1,0 +1,47 @@
+QTU\CurriculumBundle\Entity\CurriculumForMajor:
+    type: entity
+    table: qtu_curriculum_for_major
+    indexes:
+        major_details_id:
+            columns:
+                - major_details_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        code:
+            type: string
+            nullable: false
+            length: 20
+            options:
+                fixed: false
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        description:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+    manyToOne:
+        majorDetails:
+            targetEntity: QTU\DepartmentMajorBundle\Entity\MajorDetails
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                major_details_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

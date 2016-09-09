@@ -11,6 +11,7 @@
 
 namespace Application\Sonata\UserBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Sonata\UserBundle\Entity\BaseUser as BaseUser;
 
 /**
@@ -21,14 +22,31 @@ use Sonata\UserBundle\Entity\BaseUser as BaseUser;
  * References :
  *   working with object : http://www.doctrine-project.org/projects/orm/2.0/docs/reference/working-with-objects/en
  *
- * @author <yourname> <youremail>
+ * @author dominhduc dominhdc@gmail.com
  */
+/**
+ * Class User
+ * @package Application\Sonata\UserBundle\Entity
+ * @ORM\Table(name="fos_user_user")
+ * @ORM\Entity()
+*/
 class User extends BaseUser
 {
     /**
-     * @var int $id
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /** loại tài khoản: gv: 0; sv: 1, khac:3
+     * @var integer
+     *
+     * @ORM\Column(name="qtu_type", type="integer")
+     */
+    private $qtuType = 0;
 
     /**
      * Get id
@@ -38,5 +56,28 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+    
+    /**
+     * Set qtuType
+     *
+     * @param integer $type
+     * @return User
+     */
+    public function setQtuType($type)
+    {
+        $this->qtuType = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get qtuType
+     *
+     * @return integer 
+     */
+    public function getQtuType()
+    {
+        return $this->qtuType;
     }
 }

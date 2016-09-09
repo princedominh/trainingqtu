@@ -1,0 +1,70 @@
+QTU\DepartmentMajorBundle\Entity\MajorDetails:
+    type: entity
+    table: qtu_major_details
+    indexes:
+        major_id:
+            columns:
+                - major_id
+        fk_qtu_major_details_qtu_training_form1_idx:
+            columns:
+                - training_form_id
+        fk_qtu_major_details_qtu_training_level1_idx:
+            columns:
+                - training_level_id
+        fk_qtu_major_details_qtu_major1_idx:
+            columns:
+                - major_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        code:
+            type: string
+            nullable: false
+            length: 10
+            options:
+                fixed: false
+        note:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+    manyToOne:
+        trainingForm:
+            targetEntity: TrainingForm
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                training_form_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        trainingLevel:
+            targetEntity: TrainingLevel
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                training_level_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        major:
+            targetEntity: Major
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                major_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

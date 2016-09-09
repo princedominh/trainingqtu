@@ -1,0 +1,56 @@
+QTU\MarkBundle\Entity\StudentSubjectCourse:
+    type: entity
+    table: qtu_student_subject_course
+    indexes:
+        student_id:
+            columns:
+                - student_id
+                - subject_course_id
+        subject_course_id:
+            columns:
+                - subject_course_id
+        IDX_1DB3DD44CB944F1A:
+            columns:
+                - student_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        overallMark:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            column: overall_mark
+        isPass:
+            type: boolean
+            nullable: true
+            column: is_pass
+    manyToOne:
+        student:
+            targetEntity: QTU\StudentLecturerBundle\Entity\Student
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                student_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        subjectCourse:
+            targetEntity: SubjectCourse
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                subject_course_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

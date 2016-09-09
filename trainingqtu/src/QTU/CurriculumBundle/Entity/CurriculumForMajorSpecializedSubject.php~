@@ -1,0 +1,200 @@
+<?php
+
+namespace QTU\CurriculumBundle\Entity;
+
+/**
+ * CurriculumForMajorSpecializedSubject
+ */
+class CurriculumForMajorSpecializedSubject
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var boolean
+     */
+    private $semester = '1';
+
+    /**
+     * @var integer
+     */
+    private $groupValue;
+
+    /**
+     * @var integer
+     */
+    private $groupQuantity;
+
+    /**
+     * @var \QTU\CurriculumBundle\Entity\Subject
+     */
+    private $subject;
+
+    /**
+     * @var \QTU\CurriculumBundle\Entity\KnowledgeBlock
+     */
+    private $knowledgeBlock;
+
+    /**
+     * @var \QTU\CurriculumBundle\Entity\CurriculumForMajorSpecialized
+     */
+    private $curriculumForMajorSpecialized;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set semester
+     *
+     * @param boolean $semester
+     *
+     * @return CurriculumForMajorSpecializedSubject
+     */
+    public function setSemester($semester)
+    {
+        $this->semester = $semester;
+
+        return $this;
+    }
+
+    /**
+     * Get semester
+     *
+     * @return boolean
+     */
+    public function getSemester()
+    {
+        return $this->semester;
+    }
+
+    /**
+     * Set groupValue
+     *
+     * @param integer $groupValue
+     *
+     * @return CurriculumForMajorSpecializedSubject
+     */
+    public function setGroupValue($groupValue)
+    {
+        $this->groupValue = $groupValue;
+
+        return $this;
+    }
+
+    /**
+     * Get groupValue
+     *
+     * @return integer
+     */
+    public function getGroupValue()
+    {
+        return $this->groupValue;
+    }
+
+    /**
+     * Set groupQuantity
+     *
+     * @param integer $groupQuantity
+     *
+     * @return CurriculumForMajorSpecializedSubject
+     */
+    public function setGroupQuantity($groupQuantity)
+    {
+        $this->groupQuantity = $groupQuantity;
+
+        return $this;
+    }
+
+    /**
+     * Get groupQuantity
+     *
+     * @return integer
+     */
+    public function getGroupQuantity()
+    {
+        return $this->groupQuantity;
+    }
+
+    /**
+     * Set subject
+     *
+     * @param \QTU\CurriculumBundle\Entity\Subject $subject
+     *
+     * @return CurriculumForMajorSpecializedSubject
+     */
+    public function setSubject(\QTU\CurriculumBundle\Entity\Subject $subject = null)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Get subject
+     *
+     * @return \QTU\CurriculumBundle\Entity\Subject
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * Set knowledgeBlock
+     *
+     * @param \QTU\CurriculumBundle\Entity\KnowledgeBlock $knowledgeBlock
+     *
+     * @return CurriculumForMajorSpecializedSubject
+     */
+    public function setKnowledgeBlock(\QTU\CurriculumBundle\Entity\KnowledgeBlock $knowledgeBlock = null)
+    {
+        $this->knowledgeBlock = $knowledgeBlock;
+
+        return $this;
+    }
+
+    /**
+     * Get knowledgeBlock
+     *
+     * @return \QTU\CurriculumBundle\Entity\KnowledgeBlock
+     */
+    public function getKnowledgeBlock()
+    {
+        return $this->knowledgeBlock;
+    }
+
+    /**
+     * Set curriculumForMajorSpecialized
+     *
+     * @param \QTU\CurriculumBundle\Entity\CurriculumForMajorSpecialized $curriculumForMajorSpecialized
+     *
+     * @return CurriculumForMajorSpecializedSubject
+     */
+    public function setCurriculumForMajorSpecialized(\QTU\CurriculumBundle\Entity\CurriculumForMajorSpecialized $curriculumForMajorSpecialized = null)
+    {
+        $this->curriculumForMajorSpecialized = $curriculumForMajorSpecialized;
+
+        return $this;
+    }
+
+    /**
+     * Get curriculumForMajorSpecialized
+     *
+     * @return \QTU\CurriculumBundle\Entity\CurriculumForMajorSpecialized
+     */
+    public function getCurriculumForMajorSpecialized()
+    {
+        return $this->curriculumForMajorSpecialized;
+    }
+}
+

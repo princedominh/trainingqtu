@@ -1,0 +1,41 @@
+QTU\MarkBundle\Entity\SubjectCourseHasQtuLecturer:
+    type: entity
+    table: qtu_subject_course_has_qtu_lecturer
+    indexes:
+        fk_qtu_subject_course_has_qtu_lecture_qtu_lecture1_idx:
+            columns:
+                - lecturer_id
+        fk_qtu_subject_course_has_qtu_lecture_qtu_subject_course1_idx:
+            columns:
+                - subject_course_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        subjectCourse:
+            targetEntity: SubjectCourse
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                subject_course_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lecturer:
+            targetEntity: QTU\StudentLecturerBundle\Entity\Lecturer
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lecturer_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

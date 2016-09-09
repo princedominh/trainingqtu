@@ -1,0 +1,39 @@
+QTU\CurriculumBundle\Entity\CurriculumForMajorSpecialized:
+    type: entity
+    table: qtu_curriculum_for_major_specialized
+    indexes:
+        fk_qtu_curriculum_for_major_specialized_qtu_curriculum_for__idx:
+            columns:
+                - curriculum_for_major_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        createdAt:
+            type: date
+            nullable: false
+            column: created_at
+    manyToOne:
+        curriculumForMajor:
+            targetEntity: CurriculumForMajor
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                curriculum_for_major_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

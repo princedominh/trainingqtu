@@ -1,0 +1,72 @@
+QTU\CurriculumBundle\Entity\CurriculumForClassManagementSubject:
+    type: entity
+    table: qtu_curriculum_for_class_management_subject
+    indexes:
+        subject_id:
+            columns:
+                - subject_id
+        knowledge_block_id:
+            columns:
+                - knowledge_block_id
+        fk_qtu_curriculum_for_class_management_subject_qtu_curricul_idx:
+            columns:
+                - curriculum_for_class_management_specialized_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        semester:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+        groupValue:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: group_value
+        groupQuantity:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: group_quantity
+    manyToOne:
+        subject:
+            targetEntity: Subject
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                subject_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        knowledgeBlock:
+            targetEntity: KnowledgeBlock
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                knowledge_block_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        curriculumForClassManagementSpecialized:
+            targetEntity: CurriculumForClassManagementSpecialized
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                curriculum_for_class_management_specialized_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

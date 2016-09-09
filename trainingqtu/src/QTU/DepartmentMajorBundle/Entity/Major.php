@@ -1,0 +1,112 @@
+<?php
+
+namespace QTU\DepartmentMajorBundle\Entity;
+
+/**
+ * Major
+ */
+class Major
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $shortname;
+
+    /**
+     * @var string
+     */
+    private $fullname;
+
+    /**
+     * @var \QTU\DepartmentMajorBundle\Entity\Department
+     */
+    private $department;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set shortname
+     *
+     * @param string $shortname
+     *
+     * @return Major
+     */
+    public function setShortname($shortname)
+    {
+        $this->shortname = $shortname;
+
+        return $this;
+    }
+
+    /**
+     * Get shortname
+     *
+     * @return string
+     */
+    public function getShortname()
+    {
+        return $this->shortname;
+    }
+
+    /**
+     * Set fullname
+     *
+     * @param string $fullname
+     *
+     * @return Major
+     */
+    public function setFullname($fullname)
+    {
+        $this->fullname = $fullname;
+
+        return $this;
+    }
+
+    /**
+     * Get fullname
+     *
+     * @return string
+     */
+    public function getFullname()
+    {
+        return $this->fullname;
+    }
+
+    /**
+     * Set department
+     *
+     * @param \QTU\DepartmentMajorBundle\Entity\Department $department
+     *
+     * @return Major
+     */
+    public function setDepartment(\QTU\DepartmentMajorBundle\Entity\Department $department = null)
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    /**
+     * Get department
+     *
+     * @return \QTU\DepartmentMajorBundle\Entity\Department
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+}

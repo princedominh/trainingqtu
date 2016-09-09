@@ -1,0 +1,47 @@
+QTU\MarkBundle\Entity\StudentSubject:
+    type: entity
+    table: qtu_student_subject
+    indexes:
+        fk_qtu_student_subject_qtu_student1_idx:
+            columns:
+                - student_id
+        fk_qtu_student_subject_qtu_subject1_idx:
+            columns:
+                - subject_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        mark:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+    manyToOne:
+        student:
+            targetEntity: QTU\StudentLecturerBundle\Entity\Student
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                student_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        subject:
+            targetEntity: QTU\CurriculumBundle\Entity\Subject
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                subject_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

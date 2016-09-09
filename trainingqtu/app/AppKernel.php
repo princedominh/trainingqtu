@@ -38,6 +38,9 @@ class AppKernel extends Kernel
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
 
             new QTU\CurriculumBundle\QTUCurriculumBundle(),
+            new QTU\DepartmentMajorBundle\QTUDepartmentMajorBundle(),
+            new QTU\StudentLecturerBundle\QTUStudentLecturerBundle(),
+            new QTU\MarkBundle\QTUMarkBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

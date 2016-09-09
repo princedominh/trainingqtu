@@ -105,13 +105,11 @@ sonata_admin:
     show_mosaic_button:   true
     
 sonata_user:
-#    security_acl: true
-#    manager_type: orm # can be orm or mongodb
     security_acl: true
     manager_type: orm # Can be orm or mongodb
 
     table:
-        user_group: "my_custom_user_group_association_table_name"
+        user_group: "sonata_user_group_association"
 
 #    impersonating:
 #        route:                page_slug

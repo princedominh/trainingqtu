@@ -68,6 +68,10 @@ doctrine:
                     ApplicationSonataUserBundle: ~
                     SonataUserBundle: ~
                     FOSUserBundle: ~
+                    QTUCurriculumBundle: ~
+                    QTUDepartmentMajorBundle: ~
+                    QTUMarkBundle: ~
+                    QTUStudentLecturerBundle: ~
                     translatable:
                         type: annotation
                         alias: Gedmo

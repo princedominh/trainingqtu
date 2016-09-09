@@ -1,0 +1,62 @@
+QTU\MarkBundle\Entity\StudentSubjectCourseDetails:
+    type: entity
+    table: qtu_student_subject_course_details
+    indexes:
+        subject_course_id:
+            columns:
+                - subject_course_id
+        mark_type_id:
+            columns:
+                - mark_type_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        mark:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+        percentage:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+        createdAt:
+            type: date
+            nullable: false
+            column: created_at
+        description:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+    manyToOne:
+        subjectCourse:
+            targetEntity: StudentSubjectCourse
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                subject_course_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        markType:
+            targetEntity: MarkType
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                mark_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,39 @@
+QTU\CurriculumBundle\Entity\CurriculumForClassManagementSpecialized:
+    type: entity
+    table: qtu_curriculum_for_class_management_specialized
+    indexes:
+        fk_qtu_curriculum_for_class_management_specialized_qtu_curr_idx:
+            columns:
+                - curriculum_for_class_management_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        createdAt:
+            type: date
+            nullable: false
+            column: created_at
+    manyToOne:
+        curriculumForClassManagement:
+            targetEntity: CurriculumForClassManagement
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                curriculum_for_class_management_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

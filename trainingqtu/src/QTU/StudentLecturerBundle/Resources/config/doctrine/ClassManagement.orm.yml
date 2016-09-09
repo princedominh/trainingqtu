@@ -1,0 +1,59 @@
+QTU\StudentLecturerBundle\Entity\ClassManagement:
+    type: entity
+    table: qtu_class_management
+    indexes:
+        major_details_id:
+            columns:
+                - major_details_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        shortname:
+            type: string
+            nullable: false
+            length: 50
+            options:
+                fixed: false
+        fullname:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        admissionYear:
+            type: smallint
+            nullable: false
+            options:
+                unsigned: false
+            column: admission_year
+        graduationYear:
+            type: smallint
+            nullable: true
+            options:
+                unsigned: false
+            column: graduation_year
+        maxDurationYear:
+            type: smallint
+            nullable: true
+            options:
+                unsigned: false
+            column: max_duration_year
+    manyToOne:
+        majorDetails:
+            targetEntity: QTU\DepartmentMajorBundle\Entity\MajorDetails
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                major_details_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
