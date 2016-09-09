@@ -9,8 +9,8 @@ sonata_block:
         sonata.block.service.text: # used to if you plan to use Sonata user routes           
 
 sonata_admin:
-    title:      Coffee
-    title_logo: assets/images/logo3.png
+    title:      "QUẢN LÝ ĐÀO TẠO - ĐẠI HỌC QUANG TRUNG"
+    title_logo: assets/images/lms_logo.png #CẦN NGƯỜI LÀM LẠI CHỖ NÀY
     
     security:
         handler:              sonata.admin.security.handler.acl
@@ -69,30 +69,30 @@ sonata_admin:
                 roles: [ROLE_SUPER_ADMIN]
                     
             Khoa - Ngành: 
-                label: Coffee
-                icon: "%sonata.coffee.groupicon%" 
+                label: DepartmentMajor
+                icon: "%sonata.department.groupicon%" 
                 items: 
-                    - dmd.coffee.category
-                    - dmd.coffee.item
-                    - dmd.coffee.area
-                    - dmd.coffee.table
+#                    - qtu.departmentmajor.department
+#                    - qtu.departmentmajor.department
+#                    - qtu.departmentmajor.department
+#                    - qtu.departmentmajor.department
                 roles: [ROLE_ADMIN, ROLE_COFFEE_ADMIN]
-            Material: 
-                label: "Material"
-                icon: "%sonata.material.groupicon%" 
-                items: 
-                    - dmd.coffee.material
-                    - dmd.coffee.unit
-                    - dmd.coffee.unitreference
-                    - dmd.coffee.recipe
-#                    - dmd.coffee.recipeprice
-                roles: [ROLE_ADMIN, ROLE_COFFEE_ADMIN]
-            Inventory: 
-                label: "Inventory"
-                icon: "%sonata.inventory.groupicon%" 
-                items: 
-                    - dmd.coffee.inventory_receiving_voucher
-                roles: [ROLE_ADMIN, ROLE_COFFEE_ADMIN, ROLE_COUNTER]
+#            Material: 
+#                label: "Material"
+#                icon: "%sonata.material.groupicon%" 
+#                items: 
+#                    - dmd.coffee.material
+#                    - dmd.coffee.unit
+#                    - dmd.coffee.unitreference
+#                    - dmd.coffee.recipe
+##                    - dmd.coffee.recipeprice
+#                roles: [ROLE_ADMIN, ROLE_COFFEE_ADMIN]
+#            Inventory: 
+#                label: "Inventory"
+#                icon: "%sonata.inventory.groupicon%" 
+#                items: 
+#                    - dmd.coffee.inventory_receiving_voucher
+#                roles: [ROLE_ADMIN, ROLE_COFFEE_ADMIN, ROLE_COUNTER]
 #            News:
 #                label: News
 #                icon: "%sonata.news.groupicon%" 

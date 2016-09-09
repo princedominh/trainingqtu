@@ -9,17 +9,8 @@ RewriteRule ^/web/config.php - [L]
 RewriteRule ^/web/info.php - [L]
 
 # Fix the bundles folder
-RewriteRule ^angular-1.4.9/(.*)$ /web/angular-1.4.9/$1  [QSA,L]
-RewriteRule ^apps/(.*)$ /web/apps/$1  [QSA,L]
-RewriteRule ^angular-foundation/(.*)$ /web/angular-foundation/$1  [QSA,L]
-RewriteRule ^foundation-5.5.3/(.*)$ /web/foundation-5.5.3/$1  [QSA,L]
-RewriteRule ^bundles/(.*)$ /web/bundles/$1  [QSA,L]
-RewriteRule ^bootstrap/(.*)$ /web/bootstrap/$1 [QSA,L]
-RewriteRule ^css/(.*)$ /web/css/$1 [QSA,L]
-RewriteRule ^font/(.*)$ /web/font/$1 [QSA,L]
-RewriteRule ^images/(.*)$ /web/images/$1 [QSA,L]
-RewriteRule ^js/(.*)$ /web/js/$1 [QSA,L]
-RewriteRule ^uploads/(.*)$ /web/uploads/$1 [QSA,L]
+RewriteRule ^assets/(.*)$ /web/assets/$1 [QSA,L]
+RewriteRule ^bundles/(.*)$ /web/bundles/$1 [QSA,L]
 RewriteRule ^robots.txt$ /web/robots.txt [QSA,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
