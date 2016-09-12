@@ -1,13 +1,13 @@
-QTU\CurriculumBundle\Entity\CurriculumForClassManagement:
+QTU\LecturerBundle\Entity\Lecturer:
     type: entity
-    table: qtu_curriculum_for_class_management
+    table: qtu_lecturer
     indexes:
-        class_management_id:
+        fk_qtu_lecture_qtu_department1_idx:
             columns:
-                - class_management_id
+                - qtu_department_id
     id:
         id:
-            type: integer
+            type: bigint
             nullable: false
             options:
                 unsigned: false
@@ -21,27 +21,15 @@ QTU\CurriculumBundle\Entity\CurriculumForClassManagement:
             length: 20
             options:
                 fixed: false
-        name:
-            type: string
-            nullable: false
-            length: 255
-            options:
-                fixed: false
-        description:
-            type: text
-            nullable: true
-            length: 65535
-            options:
-                fixed: false
     manyToOne:
-        classManagement:
-            targetEntity: QTU\StudentBundle\Entity\ClassManagement
+        qtuDepartment:
+            targetEntity: QTU\DepartmentMajorBundle\Entity\Department
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                class_management_id:
+                qtu_department_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

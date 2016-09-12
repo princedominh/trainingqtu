@@ -18,7 +18,7 @@ class SubjectCourseHasQtuLecturer
     private $subjectCourse;
 
     /**
-     * @var \QTU\MarkBundle\Entity\Lecturer
+     * @var \QTU\LecturerBundle\Entity\Lecturer
      */
     private $lecturer;
 
@@ -60,11 +60,11 @@ class SubjectCourseHasQtuLecturer
     /**
      * Set lecturer
      *
-     * @param \QTU\MarkBundle\Entity\Lecturer $lecturer
+     * @param \QTU\LecturerBundle\Entity\Lecturer $lecturer
      *
      * @return SubjectCourseHasQtuLecturer
      */
-    public function setLecturer(\QTU\MarkBundle\Entity\Lecturer $lecturer = null)
+    public function setLecturer(\QTU\LecturerBundle\Entity\Lecturer $lecturer = null)
     {
         $this->lecturer = $lecturer;
 
@@ -74,7 +74,7 @@ class SubjectCourseHasQtuLecturer
     /**
      * Get lecturer
      *
-     * @return \QTU\MarkBundle\Entity\Lecturer
+     * @return \QTU\LecturerBundle\Entity\Lecturer
      */
     public function getLecturer()
     {

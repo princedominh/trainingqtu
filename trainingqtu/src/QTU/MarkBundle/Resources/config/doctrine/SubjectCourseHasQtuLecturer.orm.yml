@@ -29,7 +29,7 @@ QTU\MarkBundle\Entity\SubjectCourseHasQtuLecturer:
                     referencedColumnName: id
             orphanRemoval: false
         lecturer:
-            targetEntity: QTU\StudentLecturerBundle\Entity\Lecturer
+            targetEntity: QTU\LecturerBundle\Entity\Lecturer
             cascade: {  }
             fetch: LAZY
             mappedBy: null

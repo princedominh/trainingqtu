@@ -1,0 +1,3 @@
+qtu_student_lecturer_homepage:
+    path:     /
+    defaults: { _controller: QTUStudentBundle:Default:index }

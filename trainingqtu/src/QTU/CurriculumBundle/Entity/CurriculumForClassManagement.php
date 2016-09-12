@@ -2,7 +2,7 @@
 
 namespace QTU\CurriculumBundle\Entity;
 
-use QTU\StudentLecturerBundle\Entity\ClassManagement as ClassManagement;
+use QTU\StudentBundle\Entity\ClassManagement as ClassManagement;
 
 /**
  * CurriculumForClassManagement
@@ -30,7 +30,7 @@ class CurriculumForClassManagement
     private $description;
 
     /**
-     * @var \QTU\StudentLecturerBundle\Entity\ClassManagement
+     * @var \QTU\StudentBundle\Entity\ClassManagement
      */
     private $classManagement;
 
@@ -120,11 +120,11 @@ class CurriculumForClassManagement
     /**
      * Set classManagement
      *
-     * @param \QTU\StudentLecturerBundle\Entity\ClassManagement $classManagement
+     * @param \QTU\StudentBundle\Entity\ClassManagement $classManagement
      *
      * @return CurriculumForClassManagement
      */
-    public function setClassManagement(\QTU\StudentLecturerBundle\Entity\ClassManagement $classManagement = null)
+    public function setClassManagement(\QTU\StudentBundle\Entity\ClassManagement $classManagement = null)
     {
         $this->classManagement = $classManagement;
 
@@ -134,7 +134,7 @@ class CurriculumForClassManagement
     /**
      * Get classManagement
      *
-     * @return \QTU\StudentLecturerBundle\Entity\ClassManagement
+     * @return \QTU\StudentBundle\Entity\ClassManagement
      */
     public function getClassManagement()
     {

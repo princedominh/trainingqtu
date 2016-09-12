@@ -34,7 +34,7 @@ QTU\MarkBundle\Entity\StudentSubjectCourse:
             column: is_pass
     manyToOne:
         student:
-            targetEntity: QTU\StudentLecturerBundle\Entity\Student
+            targetEntity: QTU\StudentBundle\Entity\Student
             cascade: {  }
             fetch: LAZY
             mappedBy: null

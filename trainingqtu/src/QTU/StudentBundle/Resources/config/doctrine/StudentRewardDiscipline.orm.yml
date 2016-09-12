@@ -1,13 +1,10 @@
-QTU\MarkBundle\Entity\StudentSubject:
+QTU\StudentBundle\Entity\StudentRewardDiscipline:
     type: entity
-    table: qtu_student_subject
+    table: qtu_student_reward_discipline
     indexes:
-        fk_qtu_student_subject_qtu_student1_idx:
+        student_id:
             columns:
                 - student_id
-        fk_qtu_student_subject_qtu_subject1_idx:
-            columns:
-                - subject_id
     id:
         id:
             type: bigint
@@ -18,30 +15,36 @@ QTU\MarkBundle\Entity\StudentSubject:
             generator:
                 strategy: IDENTITY
     fields:
-        mark:
+        type:
             type: integer
-            nullable: false
+            nullable: true
             options:
                 unsigned: false
+        createdAt:
+            type: date
+            nullable: true
+            column: created_at
+        document:
+            type: string
+            nullable: true
+            length: 45
+            options:
+                fixed: false
+        details:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
     manyToOne:
         student:
-            targetEntity: QTU\StudentBundle\Entity\Student
+            targetEntity: Student
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
                 student_id:
-                    referencedColumnName: id
-            orphanRemoval: false
-        subject:
-            targetEntity: QTU\CurriculumBundle\Entity\Subject
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                subject_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

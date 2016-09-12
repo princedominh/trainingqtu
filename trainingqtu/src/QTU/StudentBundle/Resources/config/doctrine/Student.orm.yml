@@ -1,0 +1,98 @@
+QTU\StudentBundle\Entity\Student:
+    type: entity
+    table: qtu_student
+    indexes:
+        student_status_id:
+            columns:
+                - student_status_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        code:
+            type: string
+            nullable: false
+            length: 20
+            options:
+                fixed: false
+        nativeLand:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: native_land
+        admissionYear:
+            type: smallint
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: admission_year
+        graduationYear:
+            type: smallint
+            nullable: true
+            options:
+                unsigned: false
+            column: graduation_year
+        note:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+        ethnic:
+            type: string
+            nullable: true
+            length: 50
+            options:
+                fixed: false
+        religion:
+            type: string
+            nullable: true
+            length: 100
+            options:
+                fixed: false
+        permanentAddress:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: permanent_address
+        identityCard:
+            type: string
+            nullable: true
+            length: 12
+            options:
+                fixed: false
+            column: identity_card
+        identityCardAt:
+            type: date
+            nullable: true
+            column: identity_card_at
+        identityCardLocation:
+            type: string
+            nullable: true
+            length: 100
+            options:
+                fixed: false
+            column: identity_card_location
+    manyToOne:
+        studentStatus:
+            targetEntity: StudentStatus
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                student_status_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

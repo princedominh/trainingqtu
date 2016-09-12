@@ -68,15 +68,16 @@ sonata_admin:
                     - sonata.user.admin.group 
                 roles: [ROLE_SUPER_ADMIN]
                     
-            Khoa - Ngành: 
+            DepartmentMajor: 
                 label: DepartmentMajor
                 icon: "%sonata.department.groupicon%" 
                 items: 
+                    - qtu_department_major.admin.department
 #                    - qtu.departmentmajor.department
 #                    - qtu.departmentmajor.department
 #                    - qtu.departmentmajor.department
-#                    - qtu.departmentmajor.department
-                roles: [ROLE_ADMIN, ROLE_COFFEE_ADMIN]
+                roles: [ROLE_ADMIN, ROLE_SUPER_ADMIN]
+                
 #            Material: 
 #                label: "Material"
 #                icon: "%sonata.material.groupicon%" 

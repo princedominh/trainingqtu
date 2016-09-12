@@ -71,7 +71,8 @@ doctrine:
                     QTUCurriculumBundle: ~
                     QTUDepartmentMajorBundle: ~
                     QTUMarkBundle: ~
-                    QTUStudentLecturerBundle: ~
+                    QTUStudentBundle: ~
+                    QTULecturerBundle: ~
                     translatable:
                         type: annotation
                         alias: Gedmo

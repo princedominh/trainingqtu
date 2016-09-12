@@ -39,8 +39,9 @@ class AppKernel extends Kernel
 
             new QTU\CurriculumBundle\QTUCurriculumBundle(),
             new QTU\DepartmentMajorBundle\QTUDepartmentMajorBundle(),
-            new QTU\StudentLecturerBundle\QTUStudentLecturerBundle(),
+            new QTU\StudentBundle\QTUStudentBundle(),
             new QTU\MarkBundle\QTUMarkBundle(),
+            new QTU\LecturerBundle\QTULecturerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
