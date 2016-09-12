@@ -1,4 +1,12 @@
+parameters:
+    security.acl.permission.map.class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
+
 services:
-#    qtu_mark.example:
-#        class: QTU\MarkBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    qtu_mark.admin.mark_type:
+        class: QTU\MarkBundle\Admin\MarkTypeAdmin
+        arguments: [~, QTU\MarkBundle\Entity\MarkType, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Mark, label: MarkType }
+        calls:
+            - [setTranslationDomain, [QTUMarkBundle]]
+            

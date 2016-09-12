@@ -1,15 +1,19 @@
+parameters:
+    security.acl.permission.map.class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
+
 services:
-#    qtu_department_major.example:
-#        class: QTU\DepartmentMajorBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
     qtu_department_major.admin.department:
         class: QTU\DepartmentMajorBundle\Admin\DepartmentAdmin
         arguments: [~, QTU\DepartmentMajorBundle\Entity\Department, SonataAdminBundle:CRUD]
         tags:
             - { name: sonata.admin, manager_type: orm, group: DepartmentMajor, label: Department }
+        calls:
+            - [setTranslationDomain, [QTUDepartmentMajorBundle]]
 
     qtu_department_major.admin.major:
         class: QTU\DepartmentMajorBundle\Admin\MajorAdmin
         arguments: [~, QTU\DepartmentMajorBundle\Entity\Major, SonataAdminBundle:CRUD]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: GV, label: Major }
+            - { name: sonata.admin, manager_type: orm, group: DepartmentMajor, label: Major }
+        calls:
+            - [setTranslationDomain, [QTUDepartmentMajorBundle]]

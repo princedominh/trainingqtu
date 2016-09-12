@@ -14,23 +14,23 @@ btn_delete: "Xóa"
 btn_filter: "Lọc"
 btn_update_and_edit_again: "Cập nhật và Sửa"
 btn_update_and_return_to_list: "Cập nhật và Trở lại danh sách"
+btn_update_acl: "Cập nhật ACL"
 
-Coffee: "Cà phê"
 confirm_exit: "Xác nhận"
 
 Dashboard: "Bảng điều khiển"
 delete_or: "hoặc"
+DepartmentMajor: "Khoa - Ngành"
 
 export_format_json: "Xuất JSON"
 export_format_xml: "Xuất XML"
 export_format_csv: "Xuất CSV"
 export_format_xls: "Xuất XLS"
 
+flash_acl_edit_success: "Thay đổi ACL thành công"
 flash_create_success: "Thêm thành công"
 flash_delete_success: "Xóa thành công"
 flash_edit_success: "Sửa thành công"
-
-Inventory: "Kho"
 
 label_export_download: "Xuất danh sách"
 label_filters: "Lọc"
@@ -63,7 +63,7 @@ link_reset_filter: "Hủy lọc"
 list_select: "Chọn"
 list_results_count: "Số lượng"
 
-"Material": "Nguyên liệu"
+"Mark": "Điểm - Học tập"
 message_delete_confirmation: "Bạn có chắc chắn xóa?"
 
 News: "Thông tin mới"

@@ -9,11 +9,11 @@ sonata_block:
         sonata.block.service.text: # used to if you plan to use Sonata user routes           
 
 sonata_admin:
-    title:      "QUẢN LÝ ĐÀO TẠO - ĐẠI HỌC QUANG TRUNG"
+    title:      "QTU"
     title_logo: assets/images/lms_logo.png #CẦN NGƯỜI LÀM LẠI CHỖ NÀY
     
     security:
-        handler:              sonata.admin.security.handler.acl
+        handler:      sonata.admin.security.handler.acl
         information:
             GUEST:    [VIEW, LIST]
             STAFF:    [EDIT, LIST, CREATE]
@@ -29,7 +29,6 @@ sonata_admin:
             - OPERATOR
             - MASTER
         object_permissions:
-
             # Defaults:
             - VIEW
             - EDIT
@@ -73,11 +72,14 @@ sonata_admin:
                 icon: "%sonata.department.groupicon%" 
                 items: 
                     - qtu_department_major.admin.department
-#                    - qtu.departmentmajor.department
-#                    - qtu.departmentmajor.department
-#                    - qtu.departmentmajor.department
-                roles: [ROLE_ADMIN, ROLE_SUPER_ADMIN]
-                
+                    - qtu_department_major.admin.major
+                roles: [ROLE_TRAINING_AGENT, ROLE_SUPER_ADMIN]
+            Mark:
+                label: Mark
+                icon: "%sonata.mark.marktype%"
+                items:
+                    - qtu_mark.admin.mark_type
+                roles: [ROLE_TRAINING_AGENT, ROLE_SUPER_ADMIN]
 #            Material: 
 #                label: "Material"
 #                icon: "%sonata.material.groupicon%" 
