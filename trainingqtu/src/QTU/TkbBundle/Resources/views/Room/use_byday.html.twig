@@ -1,0 +1,385 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Theo ngày - Sử dụng phòng{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/print.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>Thời khóa biểu - Sử dụng phòng</h1>
+        </div>
+    </div>
+    
+    <div class="row" id="alert-area"></div>
+
+    <div class="row">
+        <div class="large-4 columns">
+            Chọn ngày <input type="date" name="selectDate" />
+        </div>
+        <div class="large-4 columns">
+            <a class="button" onclick="PrintElem()"><i class="fi-print"></i> In</a>
+        </div>
+        <div class="large-4 columns">
+            <select name="view">
+                <option value="week">Theo tuần</option>
+                <option value="day" selected="selected">Theo ngày</option>
+                <option value="filter">Lọc theo phòng</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="loading"></div>
+        <div class="large-12 columns" id="date_table">
+            <ul class="tabs" data-tab>
+                <li class="tab-title active"><a href="#panelMorning">Sáng</a></li>
+                <li class="tab-title"><a href="#panelAfternoon">Chiều</a></li>
+                <li class="tab-title"><a href="#panelEvening">Tối</a></li>
+            </ul>
+            <div class="tabs-content">
+                <div class="content active" id="panelMorning">
+                    <h1 class="print-title" style="text-align: center">THỜI KHÓA BIỂU CHI TIẾT</h1>
+                    <div class="print-datetime" style="text-align: right; font-style: italic"></div>
+                    <table id="table_morning">
+                    <thead>
+                        <tr>
+                            <th>Phòng</th>
+                            <th style="text-align: center; font-size: 20pt;" data-tooltip class="tip-top" title="Bật xanh để xác định lớp có học đầy đủ"><i class="fi-marker large-5"></i></th>
+                            <th data-tooltip class="tip-top" title="Số tiết thực tế thực hiện">Thực tế</th>
+                            <th colspan="3"><span>Buổi sáng</span> - <span class="current-date-room">Ngày</span></th>
+                            <th>Trễ</th>
+                            <th>Ghi chú</th>
+                            <th><i class="fi-save large-5"></i> Lưu</th>
+                        </tr>
+                    </thead>;
+                    <tbody>
+                        {% for room in rooms %}
+                        <tr class="row_m_rid_{{ room.id }}" room_id="{{ room.id }}">
+                            <td class="roomname_{{ room.id }}">{{ room.name }}</td>
+                            <td class="cell_details_room period"></td>
+                            <td class="cell_details_room hasdone"></td>
+                            <td class="cell_details_room classes" style="width: 180px;"></td>
+                            <td class="cell_details_room course_name"></td>
+                            <td class="cell_details_room instructors"></td>
+                            <td class="cell_details_room is_late"></td>
+                            <td class="cell_details_room description"></td>
+                            <td class="cell_details_room saveperiod"></td>
+                        </tr>
+                        {% endfor %}
+                        <tr><td colspan="8"><h2>Thời gian cần chốt: 11h30</h2></td><td><button class='button postfix save_detail_all'>Lưu tất cả</button></td></tr>
+                    </tbody>
+                    </table>
+                    <div class="print-footer">© 2016 Phòng Đào tạo - Đại học Quang Trung</div>
+                </div>
+                <div class="content" id="panelAfternoon">
+                    <h1 class="print-title" style="text-align: center">THỜI KHÓA BIỂU CHI TIẾT</h1>
+                    <div class="print-datetime" style="text-align: right; font-style: italic"></div>
+                    <table id="table_afternoon">
+                    <thead>
+                        <tr>
+                            <th>Phòng</th>
+                            <th style="text-align: center; font-size: 20pt;" data-tooltip class="tip-top" title="Bật xanh để xác định lớp có học đầy đủ"><i class="fi-marker large-5"></i></th>
+                            <th data-tooltip class="tip-top" title="Số tiết thực tế thực hiện">Thực tế</th>
+                            <th colspan="3"><span>Buổi chiều</span> - <span class="current-date-room">Ngày</span></th>
+                            <th>Trễ</th>
+                            <th>Ghi chú</th>
+                            <th><i class="fi-save large-5"></i> Lưu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for room in rooms %}
+                        <tr class="row_a_rid_{{ room.id }}" room_id="{{ room.id }}">
+                            <td>{{ room.name }}</td>
+                            <td class="cell_details_room period"></td>
+                            <td class="cell_details_room hasdone"></td>
+                            <td class="cell_details_room classes"></td>
+                            <td class="cell_details_room course_name"></td>
+                            <td class="cell_details_room instructors"></td>
+                            <td class="cell_details_room is_late"></td>
+                            <td class="cell_details_room description"></td>
+                            <td class="cell_details_room saveperiod"></td>
+                        </tr>
+                        {% endfor %}
+                        <tr><td colspan="8"><h2>Thời gian cần chốt: 17h00</h2></td><td><button class='button postfix save_detail_all'>Lưu tất cả</button></td></tr>
+                    </tbody>
+                    </table>
+                    <div class="print-footer">© 2016 Phòng Đào tạo - Đại học Quang Trung</div>
+                </div>
+                <div class="content" id="panelEvening">
+                    <h1 class="print-title" style="text-align: center">THỜI KHÓA BIỂU CHI TIẾT</h1>
+                    <div class="print-datetime" style="text-align: right; font-style: italic"></div>
+                    <table id="table_evening">
+                    <thead>
+                        <tr>
+                            <th>Phòng</th>
+                            <th style="text-align: center; font-size: 20pt;" data-tooltip class="tip-top" title="Bật xanh để xác định lớp có học đầy đủ"><i class="fi-marker large-5"></i></th>
+                            <th data-tooltip class="tip-top" title="Số tiết thực tế thực hiện">Thực tế</th>
+                            <th colspan="3"><span>Buổi tối</span> - <span class="current-date-room">Ngày</span></th>
+                            <th>Trễ</th>
+                            <th>Ghi chú</th>
+                            <th><i class="fi-save large-5"></i> Lưu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for room in rooms %}
+                        <tr class="row_e_rid_{{ room.id }}" room_id="{{ room.id }}">
+                            <td>{{ room.name }}</td>
+                            <td class="cell_details_room period"></td>
+                            <td class="cell_details_room hasdone"></td>
+                            <td class="cell_details_room classes"></td>
+                            <td class="cell_details_room course_name"></td>
+                            <td class="cell_details_room instructors"></td>
+                            <td class="cell_details_room is_late"></td>
+                            <td class="cell_details_room description"></td>
+                            <td class="cell_details_room saveperiod"></td>
+                        </tr>
+                        {% endfor %}
+                        <tr><td colspan="8"><h2>Thời gian cần chốt: 21h10</h2></td><td><button class='button postfix save_detail_all'>Lưu tất cả</button></td></tr>
+                    </tbody>
+                    </table>
+                    <div class="print-footer">© 2016 Phòng Đào tạo - Đại học Quang Trung</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ date | date('d/m/Y H:i:s') }}
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tkb.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/vendor/jquery.tkb.js') }}"></script>
+    <script>
+    var currentDate = "";
+    var currentTab = "panelMorning";
+    var table_morning = "";
+    var table_afternoon = "";
+    var table_evening = "";
+    
+    function parseUrl(){
+        var params = $(location).attr('hash').replace('#', '').split('&');
+        var mdate = moment().format("DD/MM/YYYY");
+        for(var i = 0; i < params.length; i++){
+            var subparams = params[i].split('=');
+            if (subparams[0] == 'date') mdate = subparams[1];
+        }
+        $("input[name='selectDate']").val(moment(mdate,"DD/MM/YYYY").format("YYYY-MM-DD"));
+    }
+    function updateUrl(isReload) {
+        var protocol = $(location).attr('protocol');
+        var host = $(location).attr('host');
+        var pathname = $(location).attr('pathname');
+
+{#        var mclass = $("input[name='week']").val();#}
+        
+        window.location.href = protocol + '//' + host + pathname + '#date=' + currentDate;
+    }
+    function isCurentDate(startdate, enddate) {
+        var sdate = moment(startdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var edate = moment(enddate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var currdate = moment().format('YYYY-MM-DD');
+
+        return moment(currdate).isBetween(sdate, edate) || moment(currdate).isSame(sdate) || moment(currdate).isSame(edate);
+    }
+    function loadRoomDate(mdate){
+        $("#table_morning").html(table_morning);
+        $("#table_afternoon").html(table_afternoon);
+        $("#table_evening").html(table_evening);
+        $(".current-date-room").text("Ngày "+ mdate);
+        
+        //reset
+        var d = new Date();
+        $(".cell_details_room").html("");
+        $(".print-datetime").html("Thời gian nhận dữ liệu: "+moment().format("DD/MM/YYYY h:mm:ss"));
+        $(".cell_details_room").each(function(){
+            $(this).parent("tr").show();
+        });
+
+        $("#date_table").hide();
+        $(".loading").html('<img src="{{ asset('images/loading.gif')}}" />');
+        
+        $.ajax({
+            url: '{{ url('qtu_tkb_room_eachweek')}}',
+            data: {start: moment(mdate, "DD/MM/YYYY").add(-1,"d").format("DD/MM/YYYY"), end:mdate}
+            }).done(function(response) {
+                if(response.success == 'success'){
+                    $(".cell_details_room").html('');
+                    for(var i=0; i<response.data.length; i++) {
+                        var period_checked = (response.data[i].hasdone > 0) ? "checked='checked'" : "";
+                        var hasdone_disabled = (response.data[i].hasdone > 0) ? "" : "disabled='disabled'";
+                        var is_late_checked = (response.data[i].is_late >0 ) ? "checked='checked'" : "";
+                        var period_description = response.data[i].description==null ? "": response.data[i].description;
+                        var td_period = "<div class='switch tiny printer_hide'>";
+                            td_period += "<input id='switch_"+response.data[i].course.detail_id+"' type='checkbox' "+period_checked+" period='"+response.data[i].period+"' name='detail_done_"+response.data[i].course.detail_id+"' />";
+                            td_period += "<label for='switch_"+response.data[i].course.detail_id+"'></label></div><div>"+response.data[i].period+"</div>";
+                        var td_hasdone = "<input class='number_hasdone' max='"+class_period[response.data[i].period].count+"' min='0' id='number_hasdone_"+response.data[i].course.detail_id+"' value='"+response.data[i].hasdone+"' type='number' name='number_hasdone_"+response.data[i].course.detail_id+"' "+hasdone_disabled+" />";
+                        var td_is_late = "<div class='switch tiny printer_hide'>";
+                            td_is_late += "<input id='switch_late_"+response.data[i].course.detail_id+"' type='checkbox' name='detail_late_"+response.data[i].course.detail_id+"' "+is_late_checked+" "+hasdone_disabled+" />";
+                            td_is_late += "<label for='switch_late_"+response.data[i].course.detail_id+"'>"+response.data[i].period+"</label></div>";
+                        var td_description = "<textarea name='detail_description_"+response.data[i].course.detail_id+"' >"+period_description+"</textarea>";
+                        var td_saveperiod ="<button class='button postfix save_detail' detail_id='"+response.data[i].course.detail_id+"' "+response.submit_disabled+" >Lưu</button>";
+                        if($("tr[class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"'] td.period").html()==""){
+                        //var span = "<div><kbd>"+response.data[i].period+"</kbd> "+response.data[i].course.detail+"</div>";
+                            $("tr[class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"'] td.period").append(td_period);
+                            $("tr[class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"'] td.hasdone").append(td_hasdone);
+                            $("tr[class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"'] td.classes").append("<div>"+response.data[i].course.classes+"</div>");
+                            $("tr[class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"'] td.course_name").append("<div>"+response.data[i].course.name+"</div>");
+                            $("tr[class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"'] td.instructors").append("<div>"+response.data[i].course.instructors+"</div>");
+
+                            $("tr[class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"'] td.is_late").append(td_is_late);
+                            $("tr[class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"'] td.description").append(td_description);
+                            $("tr[class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"'] td.saveperiod").append(td_saveperiod);
+                        } else {
+                            $("tr[class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"']").last().after(function(){
+                                var tr="<tr class='row_"+class_period[response.data[i].period].period_sort+"_rid_"+response.data[i].room+"' room_id='"+response.data[i].room+"'>";
+                                tr += "<td>"+$(".roomname_"+response.data[i].room).text()+"</td>";
+                                tr += "<td class='cell_details_room period'>"+td_period+"</td>";
+                                tr += "<td class='cell_details_room hasdone'>"+td_hasdone+"</td>";
+                                tr += "<td class='cell_details_room classes'>"+response.data[i].course.classes+"</td><td class='cell_details_room course_name'>"+response.data[i].course.name+"</td><td class='cell_details_room instructors'>"+response.data[i].course.instructors+"</td>";
+                                tr += "<td class='cell_details_room is_late'>"+td_is_late+"</td>";
+                                tr += "<td class='cell_details_room description'>"+td_description+"</td>";
+                                tr += "<td class='cell_details_room saveperiod'>"+td_saveperiod+"</td>";
+                                tr += "</tr>";
+                                return tr;
+                            });
+                        }
+                    }
+                    $(".cell_details_room.period").each(function(){
+                        if($(this).html()==""){
+                            $(this).parent("tr").remove();
+                        }
+                    });
+                    $("#date_table").show();
+                    $(".loading").html('');
+                    
+                    $("input[name^='detail_done_']").on("change",function(){
+                        //enable or disable hasdone, late
+                        $("#number_hasdone_"+$(this).prop("name").substring(12)).prop('disabled', !$(this).prop("checked"));
+                        $("#switch_late_"+$(this).prop("name").substring(12)).prop('disabled', !$(this).prop("checked"));
+                        if($("#number_hasdone_"+$(this).prop("name").substring(12)).prop('disabled')){
+                            $("#number_hasdone_"+$(this).prop("name").substring(12)).val(0);
+                            $("#switch_late_"+$(this).prop("name").substring(12)).prop('checked', '');
+                        } else {
+                            $("#number_hasdone_"+$(this).prop("name").substring(12)).val(class_period[$(this).attr("period")].count);
+                        }
+                    });
+                    $(".save_detail").on("click",function(){
+                        hasDone = $("#number_hasdone_"+$(this).attr('detail_id')).val();
+                        var data = {detail_id: $(this).attr('detail_id'),
+                                    hasdone: hasDone,
+                                    late: $("input[name='detail_late_"+$(this).attr('detail_id')+"']").prop("checked") ? 1 : 0,
+                                    description: $("textarea[name='detail_description_"+$(this).attr('detail_id')+"']").val()
+                        };
+                        SaveDetail(data,$(this).parents("tr").children(".course_name").first().text());
+                    });
+                    $(".save_detail_all").on("click", function(){
+{#                        console.log($(this).parents("table").children(".save_detail"));
+                        $(this).parents("table").children(".save_detail").each(function(){
+                            console.log($(this));
+                        });#}
+                    });
+                }
+        });
+        //active click add button
+        updateUrl(false);
+        $(document).foundation();    
+    }
+    
+    function SaveDetail(data, course_name) {
+        $.ajax({
+            url: "{{ url('qtu_tkb_room_savedetail') }}",
+            method: 'POST',
+            data: data
+        }).done(function(response) {
+            if(response.success === 'success'){
+                var alert = "<div data-alert class='alert-box success radius ab-"+data.detail_id+"'>";
+                    alert += "Đã cập nhật thành công môn "+course_name;
+                    alert += "<a href='#' class='close'>&times;</a></div>";
+                $("#alert-area").append($(alert));                
+            } else if(response.success === 'not right'){
+                var alert = "<div data-alert class='alert-box alert round ab-"+data.detail_id+"'>";
+                    alert += "Cập nhật không thành công môn "+course_name+". Lý do: ngoài thời gian quy định.";
+                    alert += "<a href='#' class='close'>&times;</a></div>";
+                $("#alert-area").append($(alert));
+            }
+            setTimeout(function(){
+                $(".ab-"+data.detail_id+" .close").click();
+            }, 5000);
+            $(document).foundation('alert', 'reflow');
+        });
+    }
+    
+    function PrintElem()
+    {
+        Popup($('#'+currentTab).html());
+    }
+
+    function Popup(data) 
+    {
+        var mywindow = window.open('', 'TKB', 'height=400,width=600');
+        mywindow.document.write('<html><head><title>TKB</title>');
+        /*optional stylesheet*/ 
+        mywindow.document.write('<style>table, th, td{border: 1px solid black;}table {border-collapse: collapse;width:100%} .print-footer,.print-datetime{margin:10px 0px;}</style>');
+        
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+    $(function() {
+        table_morning = $("#table_morning").html();
+        table_afternoon = $("#table_afternoon").html();
+        table_evening = $("#table_evening").html();
+        
+        parseUrl();
+        currentDate = moment($("input[name='selectDate']").val()).format("DD/MM/YYYY");
+        loadRoomDate(currentDate);
+
+        $("#next-date").on("click",function(){
+
+        });
+        $("#previous-date").on("click",function(){
+
+        });
+        $("input[name='selectDate']").on("change", function(){
+            currentDate = moment($("input[name='selectDate']").val(),"YYYY-MM-DD").format("DD/MM/YYYY");
+            loadRoomDate(currentDate);
+        });
+        
+        $('#panelMorning').on('toggled', function (event, tab) {
+            currentTab = "panelMorning";
+        });
+        $('#panelAfternoon').on('toggled', function (event, tab) {
+            currentTab = "panelAfternoon";
+        });
+        $('#panelEvening').on('toggled', function (event, tab) {
+            currentTab = "panelEvening";
+        });
+        $("select[name='view']").on("change", function(){
+            switch ($("select[name='view']").val()) {
+                case 'week': 
+                    location.href = "{{ path('qtu_tkb_room_byweek')}}";
+                    break;
+                case 'day':
+                    location.href = "{{ path('qtu_tkb_room_byday')}}";
+                    break;
+                case 'filter':
+                    location.href = "{{ path('qtu_tkb_room_filter')}}";
+                    break;
+            }
+        });
+    });
+    </script>
+{% endblock javascripts %}

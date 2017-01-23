@@ -17,3 +17,27 @@ services:
             - { name: sonata.admin, manager_type: orm, group: DepartmentMajor, label: Major }
         calls:
             - [setTranslationDomain, [QTUDepartmentMajorBundle]]
+
+    qtu_department_major.admin.major_details:
+        class: QTU\DepartmentMajorBundle\Admin\MajorDetailsAdmin
+        arguments: [~, QTU\DepartmentMajorBundle\Entity\MajorDetails, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: DepartmentMajor, label: MajorDetails }
+        calls:
+            - [setTranslationDomain, [QTUDepartmentMajorBundle]]
+
+    qtu_department_major.admin.training_form:
+        class: QTU\DepartmentMajorBundle\Admin\TrainingFormAdmin
+        arguments: [~, QTU\DepartmentMajorBundle\Entity\TrainingForm, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: DepartmentMajor, label: TrainingForm }
+        calls:
+            - [setTranslationDomain, [QTUDepartmentMajorBundle]]
+
+    qtu_department_major.admin.training_level:
+        class: QTU\DepartmentMajorBundle\Admin\TrainingLevelAdmin
+        arguments: [~, QTU\DepartmentMajorBundle\Entity\TrainingLevel, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: DepartmentMajor, label: TrainingLevel }
+        calls:
+            - [setTranslationDomain, [QTUDepartmentMajorBundle]]

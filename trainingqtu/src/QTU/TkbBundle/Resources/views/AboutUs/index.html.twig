@@ -1,0 +1,142 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Về chúng tôi{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb_lien.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div id="aboutus">
+        <!-- About the new site -->
+        <div class="about-container" style="position: relative; z-index: 0; background: url('uploads/backgrounds/1.jpg') no-repeat center / cover fixed;">
+            <div class="container">
+                <div class="row">
+                    <div class="large-12 columns about" id="project">
+                        <h3>Giới thiệu về hệ thống Thời khóa biểu - TKB</h3>
+                        <p>
+                            Hệ thống web TKB đem tới những thông tin về lịch học nhanh chóng và đơn giản nhất. <br />
+                            Hệ thống xây dựng trên nền web để mọi người sử dụng một cách dễ dàng. <br />
+                            Đối tượng sử dụng: Sinh viên, Giảng viên, Lãnh đạo Trường, Khoa, Tổ bộ môn, Phòng Đào tạo. <br />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-4 columns about-box-1">
+                        <div class="about-box-1-icon">
+                            <i class="fi fi-list-thumbnails large"></i>
+                        </div>
+                        <h4>Những tính năng</h4>
+                        <p>
+                            Cho phép Giảng viên, Sinh viên chủ động xem lịch học cập nhật liên tục; Giảng viên có thể yêu cầu thay đổi thông tin trực tiếp trên hệ thống; Lãnh đạo các đơn vị dễ dàng phê duyệt các yêu cầu;Mọi thay đổi sẽ được email trực tiếp cho các đối tượng liên quan.
+                        </p>
+                    </div>
+                    <div class="large-4 columns about-box-1">
+                        <div class="about-box-1-icon">
+                            <i class="fi fi-monitor"></i>
+                        </div>
+                        <h4>Giao diện động</h4>
+                        <p>
+                            Bạn có thể sử dụng Laptop, máy tính bản, điện thoại di động để xem dễ dàng thông tin về lịch
+                        </p>
+                    </div>
+                    <div class="large-4 columns about-box-1">
+                            <div class="about-box-1-icon">
+                                <i class="fi fi-social-windows"></i>
+                            </div>
+                        <h4>Thiết kế hiện đại</h4>
+                        <p>
+                            Đem lại cảm giác thân thiện, thích thú cho người sử dụng.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="container">
+            <div class="row">
+                <div class="large-12 columns testimonials">
+                    <h3>Kỳ vọng</h3>
+                    <div class="testimonial-active"></div>
+                    <div class="testimonial-quote">&ldquo; <span>Hệ thống TKB sẽ mang lại nhiều trải nghiệm hữu ích đối với mọi người!</span> &rdquo;</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Who's behind this -->
+        <div class="whos-behind-container" style="position: relative; z-index: 0; background: url('uploads/backgrounds/4.jpg') no-repeat center / cover fixed;">
+            <div class="container">
+                <div class="row">
+                    <div class="large-12 columns about">
+                        <h3>Đội ngũ xây dựng</h3>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-3 columns whos-behind-box-1">
+                        <div class="whos-behind-photo">
+                            <img src="uploads/team/nguyenthanhdat.jpg" alt="">
+                            <div class="whos-behind-social">
+                                <a href="https://www.facebook.com/thanhdat.nguyen.904"><i class="fi-social-facebook"></i></a>
+                                <a href="mailto:nguyenthanhdat@quangtrung.edu.vn"><i class="fi fi-mail"></i></a>
+                            </div>
+                        </div>
+                        <h4>Nguyễn Thanh Đạt</h4>
+                        <h5>Chỉ đạo nội dung</h5>
+                        <p>
+
+                        </p>
+                    </div>
+                    <div class="large-3 columns whos-behind-box-1">
+                        <div class="whos-behind-photo">
+                            <img src="{{ asset('uploads/team/dominhduc.jpg') }}" alt="">
+                            <div class="whos-behind-social">
+                                <a href="https://www.facebook.com/princedominh"><i class="fi-social-facebook"></i></a>
+                                <a href="https://twitter.com/princedominh"><i class="fi-social-twitter"></i></a>
+                                <a href="mailto:dominhduc@quangtrung.edu.vn"><i class="fi fi-mail"></i></a>
+                            </div>
+                        </div>
+                        <h4>Đỗ Minh Đức</h4>
+                        <h5>Phát triển hệ thống</h5>
+                        <p>
+
+                        </p>
+                    </div>
+                    <div class="large-3 columns whos-behind-box-1">
+                        <div class="whos-behind-photo">
+                            <img src="{{ asset('uploads/team/phamvilien.jpg') }}" alt="">
+                            <div class="whos-behind-social">
+                                <a href="https://www.facebook.com/lienpv"><i class="fi-social-facebook"></i></a>
+                                <a href="mailto:phamvilien@quangtrung.edu.vn"><i class="fi fi-mail"></i></a>
+                            </div>
+                        </div>
+                        <h4>Phạm Vi Liên</h4>
+                        <h5>Phát triển hệ thống</h5>
+                        <p>
+
+                        </p>
+                    </div>
+                    <div class="large-3 columns whos-behind-box-1">
+                        <div class="whos-behind-photo">
+                            <img src="uploads/team/dinhthithugiang.jpg" alt="">
+                            <div class="whos-behind-social">
+                                <a href="https://www.facebook.com/giang.dinh.14203"><i class="fi-social-facebook"></i></a>
+                                <a href="mailto:dinhthithugiang@quangtrung.edu.vn"><i class="fi fi-mail"></i></a>
+                            </div>
+                        </div>
+                        <h4>Đinh Thị Thu Giang</h4>
+                        <h5>kiểm thử</h5>
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}

@@ -1,0 +1,157 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Lọc phòng{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>Lọc phòng</h1>
+        </div>
+    </div>
+    <form>
+        <div class="panel" width="700rem">
+            <div class="row">
+                <div class="large-12 columns">
+                    <ul class="room-filter">
+                        {% for room in rooms %}
+                            <li><input type="checkbox" name="chekroom" value="{{room.id}}" id="room-{{ room.id }}" /><label for="room-{{ room.id }}">{{ room.name }}</label></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-6 columns">
+                    <select name="week"></select>
+                </div>
+                <div class="large-6 columns">
+                    <a class="button btn-small filter_room"><i class="fi-filter"></i> Lọc</a>
+                    <a class="button btn-small" onclick="PrintElem()"><i class="fi-print"></i> In</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="loading"></div>
+        <div class="large-12 columns">
+            <table>
+            <thead>
+                <tr>
+                    <th rowspan="3">Phòng</th>
+                    <th colspan="7">
+                        <div class="row">
+                            <div class="small-1 columns"><a title="Tuần trước" id="previous-week"><i class="fi-arrow-left"></i></a></div>
+                            <div class="small-10 columns weekinschedule" id="current-week-room">Tuần</div>
+                            <div class="small-1 columns"><a title="Tuần tiếp theo" id="next-week"><i class="fi-arrow-right"></i></a></div>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="dateofweek-room">2</th>
+                    <th class="dateofweek-room">3</th>
+                    <th class="dateofweek-room">4</th>
+                    <th class="dateofweek-room">5</th>
+                    <th class="dateofweek-room">6</th>
+                    <th class="dateofweek-room">7</th>
+                    <th class="dateofweek-room">CN</th>
+                </tr>
+                <tr>
+                    <th class="dateinschedule-room">11/5</th>
+                    <th class="dateinschedule-room">12/5</th>
+                    <th class="dateinschedule-room">13/5</th>
+                    <th class="dateinschedule-room">14/5</th>
+                    <th class="dateinschedule-room">15/5</th>
+                    <th class="dateinschedule-room">16/5</th>
+                    <th class="dateinschedule-room">17/5</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr class="row_rid_{{ room.id }}" room_id="{{ room.id }}">
+                    <td>
+                        {{ room.name }}
+                    </td>
+                    <td class="cell_details_room"><div class="cell_period" data_used=",">1</div></td>
+                    <td class="cell_details_room"><div class="cell_period" data_used=",">2</div></td>
+                    <td class="cell_details_room"><div class="cell_period" data_used=",">3</div></td>
+                    <td class="cell_details_room"><div class="cell_period" data_used=",">4</div></td>
+                    <td class="cell_details_room"><div class="cell_period" data_used=",">5</div></td>
+                    <td class="cell_details_room"><div class="cell_period" data_used=",">6</div></td>
+                    <td class="cell_details_room"><div class="cell_period" data_used=",">7</div></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tkb.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/vendor/jquery.tkb.js') }}"></script>
+    <script>
+    function isCurentWeek(startdate, enddate) {
+        var sdate = moment(startdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var edate = moment(enddate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var currdate = moment().format('YYYY-MM-DD');
+
+        return moment(currdate).isBetween(sdate, edate) || moment(currdate).isSame(sdate) || moment(currdate).isSame(edate);
+    }
+    function loadRoomWeekFast(week){
+        var startDate = week>0 ? schedule_data[(week-1)].data[6].date : schedule_data[(week)].data[0].date;
+        var endDate = schedule_data[week].data[6].date;
+        $(".cell_details_room").text('');
+        $("#week_table").hide();
+        $(".loading").html('<img src="{{ asset('images/loading.gif')}}" />');
+        $.ajax({
+            url: '{{ url('qtu_tkb_room_eachweek')}}',
+            data: {start: startDate, end: endDate},
+            success: function(response) {
+                if(response.success == 'success'){
+                    $("#current-week-room").text("Tuần "+ (week+1) + " ("+schedule_data[week].data[0].date+" đến "+schedule_data[week].data[6].date+")");
+                    var t_d = 0;
+                    $(".dateinschedule-room").each(function(){
+                        $(this).text(schedule_data[week].data[t_d].shortdate);
+                        t_d++;
+                    });
+
+                    for(var i=0; i<response.data.length; i++) {
+                        var span = "<span data-tooltip aria-haspopup='true' \
+                                    class='has-tip "+class_period[response.data[i].period].class+"' \
+                                    title='"+response.data[i].course.classes+" - "+response.data[i].course.name+" - "+response.data[i].course.instructors+"'>"+response.data[i].period+"</span>";
+                        $("tr[room_id='"+response.data[i].room+"'] td").eq(parseInt(response.data[i].N)).append(span);
+                    }
+                    $("#week_table").show();
+                    $(".loading").html('');
+                }
+            }
+        });                
+        updateUrl(false);
+        $(document).foundation();
+    }
+    $(function() {
+{#        countWeek = schedule_data.length;#}
+        /*********** Init Week ***********/
+        for(var i=0; i<schedule_data.length; i++)
+        {
+            if (isCurentWeek(schedule_data[i].data[0].date, schedule_data[i].data[6].date)) {
+                $("select[name='week']").append($('<option></option>').attr('value', i).text(schedule_data[i].weekname+ " ("+schedule_data[i].data[0].date+" đến "+schedule_data[i].data[6].date+")").attr('selected', 'selected'));
+            }
+            else {
+                $("select[name='week']").append($('<option></option>').attr('value', i).text(schedule_data[i].weekname+ " ("+schedule_data[i].data[0].date+" đến "+schedule_data[i].data[6].date+")"));
+            }
+        }
+        /*********** End Init Week ***********/
+        
+        $(".filter_room").click(function(){
+            alert($("select[name='week']").val());
+        });
+    });
+    </script>
+{% endblock javascripts %}

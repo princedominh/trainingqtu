@@ -1,0 +1,175 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Thời khóa biểu - Phòng Đào tạo{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/tkb_lien.css') }}" />
+    
+    {#<link rel="stylesheet" type="text/css" href="//select2.github.io/select2/select2-3.4.1/select2.css">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//t0m.github.io/select2-bootstrap-css/select2-bootstrap.css">#}
+{% endblock %}
+
+{% block body %}
+        <div class="row">
+            <div class="large-12 columns">
+                <h1>Thời khóa biểu - Phiên bản <a href="{{ path('qtu_tkb_whatsnew') }}">{{ version }}</a></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <ul class="orbit-content" data-orbit data-options="slide_number: false;">
+                    {% for notice in notices %}
+                    <li data-orbit-slide="headline-{{ notice.id}}">
+                        <div>
+                            <h6><a href="{{ path('qtu_common_notice',{slug:notice.slug}) }}">{{ notice.title }}</a></h6>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    <div class="row">
+        <div class="large-12 columns">
+            <form name="scheduledetail" onsubmit="filterClass();return false;" >
+                <div class="panel" width="700rem">
+                    <div class="row">
+                        <div class="large-4 columns">
+                            <div class="control-group">
+                                <div class="controls">
+                                    <select id="single" class="select2 input-default">
+                                        <option></option>
+                                        {% for class in classes %}
+                                            <option value="{{ class.name }}">{{ class.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                              </div>
+                            
+                        </div>
+                        <div class="large-4 columns">
+                            <label>Tuần
+                                <select id="choiceWeek" name="week">
+                                    
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns">
+                            <input type="button" class="button tiny" value="Xem lịch" id="btn_timetable_filter" />
+                        </div>
+                        <div class="large-4 columns">
+                            Ghi chú: <span class="success label">Buổi sáng</span> <span class="alert label">Buổi chiều</span> <span class="info label">Buổi tối</span>
+                            <span class="label">Lý thuyết</span> <span class="round label">Thực hành</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns" id="filter_table"></div>
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    	
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/tkb.js') }}"></script>
+    <!-- Javascript SelectBox -->
+    <script src="{{ asset('js/jquery.selectbox.js') }}"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('.select2').select2({ placeholder : 'Chọn lớp' });
+            $('button[data-select2-open]').click(function(){
+                $('#' + $(this).data('select2-open')).select2('open');
+            });
+        });
+    </script>
+    <!-- End Javascript SelectBox -->
+    <script src="{{ asset('js/vendor/jquery.tkb.js') }}"></script>
+    <script type="text/javascript">
+    var filter_url = "{{ url('qtu_tkb_timetable_class_filter') }}";
+    function filterClass(){
+        $("#filter_table").html('<img src="{{ asset('images/loading.gif')}}" />');
+        var data = "class="+$("#s2id_single a span").text()+"&week="+$("select[name='week'] option:selected").val();
+        $.ajax({
+            url: filter_url,
+            data: data,
+            }).done(function(response) {
+                $("#filter_table").html(response);
+        });
+    }
+    function parseUrl(){
+        var params = $(location).attr('hash').replace('#', '').split('&');
+        var week = 1;
+        var mclass = '';
+        for(var i = 0; i < params.length; i++){
+            var subparams = params[i].split('=');
+            if (subparams[0] == 'week') week = parseInt(subparams[1]);
+            if (subparams[0] == 'class') mclass = subparams[1];
+        }
+        if (mclass != '') {
+            $("#s2id_single a span").text(mclass);            
+            $("select[name='week'] option:selected").removeAttr("selected");
+            $("select[name='week']").find("option[value='"+(week-1)+"']").attr('selected', 'selected');
+            filterClass();
+        }
+    }
+
+    function updateUrl(isReload) {
+        var protocol = $(location).attr('protocol');
+        var host = $(location).attr('host');
+        var pathname = $(location).attr('pathname');
+
+        var mclass = $("#s2id_single a span").text();
+        var week = parseInt($("select[name='week'] option:selected").val());
+
+        window.location.href = protocol + '//' + host + pathname + '#week=' + (week + 1) + '&class=' + mclass;
+
+        if (isReload) filterClass();
+        else loadWeek(week);
+    }
+
+    function isCurentWeek(startdate, enddate) {
+        var sdate = moment(startdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var edate = moment(enddate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var currdate = moment().format('YYYY-MM-DD');
+
+        return moment(currdate).isBetween(sdate, edate) || moment(currdate).isSame(sdate) || moment(currdate).isSame(edate);
+    }
+
+    $(function() {
+        /*********** Filter Action ***********/
+        $("#btn_timetable_filter").on("click",filterClass);
+        /*********** End Filter Action ***********/
+        
+        /*********** Init Week ***********/
+        for(var i=0; i<schedule_data.length; i++)
+        {
+            if (isCurentWeek(schedule_data[i].data[0].date, schedule_data[i].data[6].date)) {
+                $("select[name='week']").append($('<option></option>').attr('value', i).text(schedule_data[i].weekname+ " ("+schedule_data[i].data[0].date+" đến "+schedule_data[i].data[6].date+")").attr('selected', 'selected'));
+            }
+            else {
+                $("select[name='week']").append($('<option></option>').attr('value', i).text(schedule_data[i].weekname+ " ("+schedule_data[i].data[0].date+" đến "+schedule_data[i].data[6].date+")"));
+            }
+        }
+        /*********** EndInit Week ***********/
+        /*********** ChangeURL Action ***********/
+        parseUrl();
+        
+        $("select[name='week']").on("change", function(){
+            updateUrl(false);
+        });
+        $("#single").on("change", function(){
+            updateUrl(true);
+        });
+        /*********** End ChangeURL Action ***********/
+
+    });
+    </script>
+{% endblock javascripts %}

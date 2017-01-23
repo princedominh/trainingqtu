@@ -1,0 +1,82 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Thống kê - Trùng lịch lớp{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/tkb_lien.css') }}" />
+{% endblock %}
+
+{% block body %}
+        <div class="row">
+            <div class="large-12 columns">
+                <h1>Thời khóa biểu - Trang Thống kê - Trùng lịch lớp</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-2 medium-3 columns">
+                <label>Chọn học kỳ
+                <select id="term" name="term">
+                    <option value="" selected>------</option>
+                    {% for term in terms %}
+                        <option value="{{ term.id }}" {% if CurrentTerm.id==term.id %}selected="selected"{%endif%}>{{ term.semester }} - {{ term.year }}</option>
+                    {% endfor %}
+                </select>
+                </label>
+                <button class="button" id="buttonCheckAll">Kiểm tra toàn bộ</button>
+            </div>
+            <div class="large-10 medium-9 columns">
+                <table style="width:100%">
+                    <tr>
+                        <th>Khoa</th>
+                        <th>Lớp</th>
+                        <th>Kiểm tra</th>
+                        <th>Lịch trùng</th>
+                    </tr>
+                    {% for classP in classes %}
+                    <tr id="class-{{ classP.id }}">
+                        <td>{{ classP.faculty }}</td>
+                        <td>{{ classP.name }}</td>
+                        <td><button class="button small" cls-id="{{ classP.id }}" id="btn-{{ classP.id }}">Kiểm tra</button></td>
+                        <td class="coincidence"></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+    var filter_url = "{{ url('qtu_tkb_coincidence_class_detail') }}";
+
+    $(function(){
+        $("button[id^='btn']").on("click", function () {
+            var clsId = $(this).attr("cls-id");
+            $("#class-"+clsId+" .coincidence").html("<img src=\"{{ asset('images/loading.gif')}}\" />");
+            $.ajax({
+              url: filter_url,
+              data: {clsid: clsId, termid: $("select[id='term']").val()}
+              }).done(function(response) {
+                if(response != "not coincidence") {
+                    $("#class-"+clsId+" .coincidence").html(response);
+                } else {
+                    $("#class-"+clsId+" .coincidence").html("<span class=\"label success\">Không trùng</span>");
+                }
+          });
+        });
+        $("#buttonCheckAll").on("click", function(){
+            $("button[id^='btn']").each(function(i, el){
+                setTimeout(function(){
+                    $(el).trigger('click');
+                },(i*700));
+            });
+        });
+    });
+      
+    </script>
+{% endblock javascripts %}
+
+

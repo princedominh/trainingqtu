@@ -22,7 +22,7 @@ class DepartmentAdmin extends AbstractAdmin
             ->add('phone')
             ->add('email')
             ->add('website')
-            ->add('description')
+//            ->add('description')
         ;
     }
 
@@ -34,16 +34,17 @@ class DepartmentAdmin extends AbstractAdmin
         $listMapper
             ->add('shortname')
             ->add('fullname')
-            ->add('address')
+//            ->add('address')
             ->add('phone')
             ->add('email')
             ->add('website')
-            ->add('description')
+            ->add('is_student_management')
+//            ->add('description')
             ->add('_action', null, array(
                 'actions' => array(
-                    'show' => array(),
+//                    'show' => array(),
                     'edit' => array(),
-                    'delete' => array(),
+//                    'delete' => array(),
                 )
             ))
         ;
@@ -61,6 +62,7 @@ class DepartmentAdmin extends AbstractAdmin
             ->add('phone')
             ->add('email')
             ->add('website')
+            ->add('is_student_management')
             ->add('description')
         ;
     }

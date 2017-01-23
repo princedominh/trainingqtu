@@ -1,0 +1,11 @@
+[{% for course in courses %}
+    { id:{{course.id}}, detail: [
+        {% for detail in course.getScheduleDetails%}
+            { id: {{detail.id}}, instructor_id: {{detail.instructor.id}}, dateOccur: '{{detail.dateOccur|date('d/m/Y') }}', period: '{{detail.period}}', description: '{{detail.description}}', hasDone: '{{detail.hasDone}}', inLate: {{detail.inLate}}, outSoon: {{detail.outSoon}}, room: '{{detail.room.name}}', type: '{{detail.typeDetail}}' } {%if not loop.last %},{%endif%}
+        {% endfor %}                         
+    ]}
+    {%if not loop.last %},{%endif%}
+{% endfor %}
+]
+
+{# cái này ko xài nữa #}

@@ -1,0 +1,19 @@
+<p>Chào các bạn sinh viên lớp {{ classP.name }},</p>
+
+<p>Phòng Đào tạo thông báo đã có sự thay đổi lịch giảng dạy của lớp cụ thể như sau:</p>
+<ul>
+    {% for detail in details %}
+    <li>{{ detail }}</li>
+    {% endfor %}
+</ul>
+<p>Kính đề nghị đại diện lớp cập nhật lại thay đổi và thông báo cho cách thành viên lớp được biết.</p>
+
+<p>Truy cập <a href="http://tkb.qtu.edu.vn">tkb.quangtrung.edu.vn</a> để xem lịch</p>
+
+<p>-- Đây là phiên bản email cho sinh viên còn nhiều bất tiện (về số lượng email, khối lượng thông tin chưa chi tiết), 
+    mong các bạn có nhiều góp ý. Hệ thống sẽ có sự nâng cấp tiếp theo để thuận tiện hơn cho mọi người--</p>
+
+<p>-- 
+Hệ thống Thời khóa biểu <br />
+&copy; 2016 - Phòng Đào tạo
+</p>

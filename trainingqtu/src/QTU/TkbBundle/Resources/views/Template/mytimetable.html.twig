@@ -1,0 +1,19 @@
+    <div class="row">
+        <div class="large-12 columns">
+            <accordion close-others="oneAtATime">
+                <accordion-group is-open="isopen">
+                    <accordion-heading>
+                        Danh sách các môn <i class="right" ng-class="{{ '{\'fi-arrows-compress\': isopen, \'fi-arrows-expand\': !isopen}'}}"></i>
+                    </accordion-heading>
+                    <ul class="course-list">
+                        <li ng-repeat="x in courses" class="background-{{ '{{$index}}' }}">{{ '{{x.name}}' }}</li>
+                    </ul>
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>                
+    <div class="row">
+        <div class="large-12 columns">
+            <calendar selected="day"></calendar>
+        </div>
+    </div>

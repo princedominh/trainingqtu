@@ -1,4 +1,31 @@
 services:
-#    qtu_curriculum.example:
-#        class: QTU\CurriculumBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    qtu_curriculum.admin.subject:
+        class: QTU\CurriculumBundle\Admin\SubjectAdmin
+        arguments: [~, QTU\CurriculumBundle\Entity\Subject, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Curriculum, label: Subject }
+        calls:
+            - [setTranslationDomain, [QTUCurriculumBundle]]
+
+    qtu_curriculum.admin.curriculum_for_major:
+        class: QTU\CurriculumBundle\Admin\CurriculumForMajorAdmin
+        arguments: [~, QTU\CurriculumBundle\Entity\CurriculumForMajor, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Curriculum, label: CurriculumForMajor }
+        calls:
+            - [setTranslationDomain, [QTUCurriculumBundle]]
+    qtu_curriculum.admin.curriculum_for_major_subject:
+        class: QTU\CurriculumBundle\Admin\CurriculumForMajorSubjectAdmin
+        arguments: [~, QTU\CurriculumBundle\Entity\CurriculumForMajorSpecializedSubject, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Curriculum, label: CurriculumForMajorSubject }
+        calls:
+            - [setTranslationDomain, [QTUCurriculumBundle]]
+
+    qtu_curriculum.admin.knowledge_block:
+        class: QTU\CurriculumBundle\Admin\KnowledgeBlockAdmin
+        arguments: [~, QTU\CurriculumBundle\Entity\KnowledgeBlock, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Curriculum, label: KnowledgeBlock }
+        calls:
+            - [setTranslationDomain, [QTUCurriculumBundle]]

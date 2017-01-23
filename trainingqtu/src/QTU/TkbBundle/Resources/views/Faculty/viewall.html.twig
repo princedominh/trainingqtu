@@ -1,0 +1,251 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Quản lý lịch dạy {{ falulty.name }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/tkb_lien.css') }}" />
+{% endblock %}
+{% block body %}
+
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>Quản lý lịch dạy {{ falulty.name }}</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="large-12 columns">
+            <form name="scheduledetail">
+                <div class="panel" width="700rem">
+                    <datalist id="class_list">
+                        {% for class in classes %}
+                            <option value="{{ class.name }}" />
+                        {% endfor %}
+
+                    </datalist>
+                    <datalist id="instructor_list">
+                        {% for user in users %}
+                            <option value="{{ user.lastname }} {{ user.firstname }}" />
+                        {% endfor %}
+                    </datalist>
+
+                    <div class="row">
+                        <div class="large-3 columns">
+                            <label>Lớp
+                            <div class="control-group">
+                                <div class="controls">
+                                    <select id="single" class="select2 input-default" name="class">
+                                        <option></option>
+                                        {% for class in classes %}
+                                            <option value="{{ class.name }}">{{ class.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                              </div>
+                            </label>
+                        </div>
+                        <div class="large-3 columns">
+                            <label>Học phần
+                                <input name="course" type="text" placeholder="Học phần" />
+                            </label>
+                        </div>
+                        <div class="large-3 columns">
+                                <select name="week">
+                                </select>
+                        </div>
+                        <div class="large-3 columns">
+                            <label>Giảng viên
+                                <input name="instructor" type="text" placeholder="Tên giảng viên" list="instructor_list" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns">
+                            <input type="button" class="button tiny" value="Lọc" id="btn_timetable_filter" />
+                            <input type="reset" class="button tiny secondary" value="Hủy lọc" />
+                        </div>
+                        <div class="large-4 columns">
+                        </div>
+                        <div class="large-4 columns">
+{#                            <input type="button" class="button tiny" value="Lưu" id="btn_timetable_save" />#}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="filter_table"></div>
+                
+                <div class="row" id="instructor_table"></div>
+            </form>
+        </div>
+    </div>
+
+
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tkb.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/vendor/jquery.tkb.js') }}"></script>
+    <!-- Javascript SelectBox -->
+    <script src="{{ asset('js/jquery.selectbox.js') }}"></script>   
+    <script type="text/javascript">
+        $(function(){
+            $('.select2').select2({ placeholder : 'Chọn lớp' });
+            $('button[data-select2-open]').click(function(){
+                $('#' + $(this).data('select2-open')).select2('open');
+            });
+        });
+    </script>
+    <!-- End Javascript SelectBox -->
+    <script>
+    var filter_url = "{{ url('qtu_tkb_timetable_filter') }}";
+    var countWeek = schedule_data.length;
+    var newcourse_data= [];
+    var delcourse_data= [];
+    
+    function filterClass(){
+        $("#filter_table").html('<img src="{{ asset('images/loading.gif')}}" />');
+        $.ajax({
+            url: filter_url,
+            data: $("form[name='scheduledetail']").serialize(),
+            }).done(function(response) {
+                $("#filter_table").html(response);
+        });
+    }
+    function parseUrl(){
+        var params = $(location).attr('hash').replace('#', '').split('&');
+        var week = 1;
+        var mclass = '';
+        for(var i = 0; i < params.length; i++){
+            var subparams = params[i].split('=');
+            if (subparams[0] == 'week') week = parseInt(subparams[1]);
+            if (subparams[0] == 'class') mclass = subparams[1];
+        }
+        if (mclass != '') {
+            $("select[name='class']").select2("val",mclass);
+            $("select[name='week']").find("option[value='"+(week-1)+"']").attr('selected', 'selected');
+            currentWeek = parseInt($("select[name='week']").val());
+            filterClass();
+        } else {
+            currentWeek = 0;
+        }
+    }
+
+    function updateUrl(isReload) {
+        var protocol = $(location).attr('protocol');
+        var host = $(location).attr('host');
+        var pathname = $(location).attr('pathname');
+
+        var mclass = $("select[name='class']").val();
+        var week = parseInt($("select[name='week'] option:selected").val());
+
+        window.location.href = protocol + '//' + host + pathname + '#week=' + (week + 1) + '&class=' + mclass;
+
+{#        if (isReload) filterClass();
+        else loadRoomWeek(week);#}
+    }
+
+    function isCurentWeek(startdate, enddate) {
+        var sdate = moment(startdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var edate = moment(enddate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var currdate = moment().format('YYYY-MM-DD');
+
+        return moment(currdate).isBetween(sdate, edate) || moment(currdate).isSame(sdate) || moment(currdate).isSame(edate);
+    }
+    function loadRoomWeek(week){
+        //call if loadInstructorWeek exist
+        if (typeof loadInstructorWeek === 'function')
+            loadInstructorWeek(week);
+        //call if loadIWeek exist
+        if (typeof loadWeek === 'function')
+            loadWeek(week);
+        updateUrl(false);
+        $(document).foundation();
+    }
+
+    function filterData(){
+        $("#filter_table").html('<img src="{{ asset('images/loading.gif')}}" />');
+        updateUrl(false);
+        $.ajax({
+            url: filter_url,
+            data: $("form[name='scheduledetail']").serialize(),
+            }).done(function(response) {
+                $("#filter_table").html(response);
+        });
+    }
+    
+    function saveData() {
+        //delete data
+        
+        //add data
+        $.ajax({
+            type: "POST",
+            data: {'newdata': JSON.stringify(newcourse_data), 'deldata': JSON.stringify(delcourse_data)},
+            url: "{{path('qtu_tkb_timetable_builder_save')}}",
+            success: function(response){
+                //reload data or reload page
+                // reload page ^_^
+{#                location.reload();#}
+                if(response.success=='success') {
+                    location.reload();
+                }
+            }
+        });
+        
+        //update data
+        
+    }
+    function initBuilderFunctions(){
+        $("select[name='week']").on("change",function(){
+            currentWeek = parseInt($(this).val());
+            loadRoomWeek(currentWeek);            
+        });
+        
+        $(".next-week").on("click",function(){
+            if(currentWeek+1>=countWeek) {
+                console.log("Vượt quá");
+            } else {
+                currentWeek++;
+                $("select[name='week'] option").eq(currentWeek).attr('selected', "selected");
+                $("select[name='week']").change();
+            }
+        });
+        $(".previous-week").on("click",function(){
+            if(currentWeek-1<0) {
+                console.log("Nhỏ quá");
+            } else {
+                currentWeek--;
+                $("select[name='week'] option").eq(currentWeek).attr('selected', "selected");
+                $("select[name='week']").change();
+            }
+        });
+    }
+
+    var currentWeek = 0;
+
+    $(function() {        
+        /*********** Init Week ***********/
+        for(var i=0; i<schedule_data.length; i++)
+        {
+            $("select[name='week']").append($('<option></option>').attr('value',i).text(schedule_data[i].weekname+ " ("+schedule_data[i].data[0].date+" đến "+schedule_data[i].data[6].date+")"));
+        }
+        /*********** EndInit Week ***********/
+        parseUrl();
+        $("#single").on("change", function(){
+            updateUrl(true);
+        });
+        /*********** Filter Action ***********/
+        $("#btn_timetable_filter").on("click",filterData);
+        /*********** End Filter Action ***********/
+        /*********** Save Action ***********/
+        $("#btn_timetable_save").on("click",saveData);
+        /*********** End Save Action ***********/
+        loadRoomWeek(currentWeek);
+
+        initBuilderFunctions();
+        
+    });
+    </script>
+{% endblock javascripts %}

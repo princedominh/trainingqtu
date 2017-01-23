@@ -118,11 +118,11 @@ class CurriculumForMajor
     /**
      * Set majorDetails
      *
-     * @param \QTU\CurriculumBundle\Entity\MajorDetails $majorDetails
+     * @param \QTU\DepartmentMajorBundle\Entity\MajorDetails $majorDetails
      *
      * @return CurriculumForMajor
      */
-    public function setMajorDetails(\QTU\CurriculumBundle\Entity\MajorDetails $majorDetails = null)
+    public function setMajorDetails(\QTU\DepartmentMajorBundle\Entity\MajorDetails $majorDetails = null)
     {
         $this->majorDetails = $majorDetails;
 

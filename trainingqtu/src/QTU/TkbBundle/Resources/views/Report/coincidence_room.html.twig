@@ -1,0 +1,75 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Thống kê - Trùng phòng{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/tkb_lien.css') }}" />
+{% endblock %}
+
+{% block body %}
+        <div class="row">
+            <div class="large-12 columns">
+                <h1>Thời khóa biểu - Trang Thống kê - Trùng phòng</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-2 medium-3 columns">
+                <label>Chọn ngày bắt đầu
+                    <input type="date" name="selectDateBegin" />
+                </label>
+                <label>Chọn ngày kết thúc
+                    <input type="date" name="selectDateEnd" />
+                </label>
+                <div><button class="button small" id="btn-check" >Kiểm tra</button></div>
+                <div class="loading"></div>
+            </div>
+            <div class="large-10 medium-9 columns">
+                <table style="width:100%">
+                    <tr>
+                        <th>Phòng</th>
+                        <th>Lịch trùng</th>
+                    </tr>
+                    {% for room in rooms %}
+                    <tr id="room-{{ room.id }}">
+                        <td>{{ room.name }}{% if (room.hasprojector) %} <i class="fi-projection-screen" title="Máy chiếu"></i>{% endif %}
+                         {% if (room.typeRoom=='Phòng thực hành máy tính') %} <i class="fi-laptop" title="Máy tính"></i>{% endif %}</td>
+                        <td class="coincidence"></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/vendor/jquery.cookie.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script type="text/javascript">
+
+    var filter_url = "{{ url('qtu_tkb_coincidence_room_detail') }}";
+
+    $(function(){
+        $("input[name='selectDateBegin']").val($.cookie('selectDateBegin'));
+        $("input[name='selectDateEnd']").val($.cookie('selectDateEnd'));
+        $("button[id^='btn']").on("click", function () {
+            var dateBegin = $("input[name='selectDateBegin']").val();
+            var dateEnd = $("input[name='selectDateEnd']").val();
+            $.cookie('selectDateBegin',dateBegin);
+            $.cookie('selectDateEnd',dateEnd);
+            $(".loading").html("<img src=\"{{ asset('images/loading.gif')}}\" />");
+            $.ajax({
+                url: filter_url,
+                data: {dateBegin: moment(dateBegin).format("DD/MM/YYYY"), dateEnd: moment(dateEnd).format("DD/MM/YYYY")}
+                }).done(function(response) {
+                    $(".loading").html("");
+                    console.log(response);
+          });
+        });
+    });
+      
+    </script>
+{% endblock javascripts %}
+
+

@@ -1,0 +1,18 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: trainingmanagement
+    database_user: root
+    database_password: 
+    locale: vi
+    mailer_transport: gmail
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: trainingmanagement2016
+    sonata.department.groupicon: '<i class=''fa fa-university''></i>'
+    sonata.mark.marktype: '<i class=''fa fa-graduation-cap''></i>'
+    sonata.student.student: '<i class=''fa fa-male''></i>'
+    sonata.user.groupicon: '<i class=''fa fa-users''></i>'
+#    sonata.admin.configuration.filters.persist: true

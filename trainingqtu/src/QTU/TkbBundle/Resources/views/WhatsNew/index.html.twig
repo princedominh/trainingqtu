@@ -1,0 +1,40 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Thời khóa biểu - Cập nhật mới{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/tkb_lien.css') }}" />
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>Thời khóa biểu - Phiên bản {{ version }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns">
+            <h2>Phiên bản 1.2</h2>
+            <ul>
+                <li>Hiển thị thời khóa biểu tổng hợp trong ngày cho Quản lý giảng đường, Thanh tra.</li>
+                <li>Bổ sung tính năng in kèm theo thời khóa biểu tổng hợp theo ngày</li>
+                <li>Cập nhật Email cho giảng viên, lớp học chi tiết hơn về các thay đổi!</li>
+                <li>Giao diện tương thích với di động nhiều hơn: Menu, bảng lịch chi tiết!</li>
+            </ul>
+            
+            <h2>Phiên bản 1.1</h2>
+            <ul>
+                <li>Cập nhật Hiển thị thời khóa biểu tổng hợp theo phòng cho Quản lý giảng đường, Thanh tra (nâng cấp tốc độ hiển thị chuyển tuần)</li>
+                <li>Email cho giảng viên, lớp học có thay đổi về lịch để cập nhật!</li>
+            </ul>
+            
+            <h2>Phiên bản 1.0</h2>
+            <ul>
+                <li>Hiển thị thời khóa biểu dạng tuần cho sinh viên. Chức năng tìm thời khóa biểu theo lớp</li>
+                <li>Hiển thị thời khóa biểu tổng hợp của cá nhân giảng viên theo tuần</li>
+                <li>Hiển thị thời khóa biểu tổng hợp theo phòng cho Quản lý giảng đường, Thanh tra</li>
+                <li>Quản trị thông tin chung</li>
+            </ul>
+        </div>
+    </div>
+{% endblock body %}

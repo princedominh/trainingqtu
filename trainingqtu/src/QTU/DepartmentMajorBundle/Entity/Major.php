@@ -21,12 +21,22 @@ class Major
      * @var string
      */
     private $fullname;
+    
+     /**
+     * @var string
+     */
+    private $code;
+   
 
     /**
      * @var \QTU\DepartmentMajorBundle\Entity\Department
      */
     private $department;
 
+
+    public function __toString() {
+        return $this->fullname;
+    }
 
     /**
      * Get id
@@ -84,6 +94,30 @@ class Major
     public function getFullname()
     {
         return $this->fullname;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Major
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 
     /**

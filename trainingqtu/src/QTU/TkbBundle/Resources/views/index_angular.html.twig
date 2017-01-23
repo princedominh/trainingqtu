@@ -1,0 +1,91 @@
+{% extends "::base_angularfoundation.html.twig" %}
+
+{% block notices %}
+    <ul class="off-canvas-list">
+        {% for notice in notices %}
+        <li data-orbit-slide="headline-{{ notice.id}}">
+            <div>
+                <h6><a href="{{ path('qtu_common_notice',{slug:notice.slug}) }}">{{ notice.title }}</a></h6>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+{% endblock notices%}
+{% block body %}
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>Thời khóa biểu - Phiên bản <a href="{{ path('qtu_tkb_whatsnew') }}">{{ version }}</a></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns">
+            <form name="scheduledetail" >
+                <div class="panel" width="700rem">
+                    <div class="row">
+                        <div class="large-4 columns">
+                            <div class="control-group">
+                                <div class="controls">
+                                    <select id="single" ui-select2 ng-model="selectedName" ng-options="x for x in classes" ng-change="filterClass()" class="select2 input-default">
+                                    </select>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="large-4 columns">
+                            Ghi chú: <span class="label">Lý thuyết</span> <span class="round label">Thực hành</span>
+                        </div>
+                    </div>
+                </div>                
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns">
+            <accordion close-others="oneAtATime">
+                <accordion-group is-open="isopen">
+                    <accordion-heading>
+                        Danh sách các môn <i class="right" ng-class="{{ '{\'fi-arrows-compress\': isopen, \'fi-arrows-expand\': !isopen}'}}"></i>
+                    </accordion-heading>
+                    <ul class="course-list">
+                        <li ng-repeat="x in courses" class="background-{{ '{{$index}}' }}">{{ '{{x.name}}' }}</li>
+                    </ul>
+                </accordion-group>
+            </accordion>
+            
+        </div>
+    </div>                
+    <div class="row">
+        <div class="large-12 columns">
+            <calendar selected="day"></calendar>
+        </div>
+    </div>
+                    
+    <div class="row">
+        <div class="large-12 columns" id="date-detail">
+            {{ 'Ngày đang chọn' }}: {{'{{selected | amDateFormat : "DD-MM-YYYY"}}'}}, {{ 'gồm các môn' }}:<br />
+            <span class="course-{{'{{detail.course_index}}'}} detail_selected" ng-repeat="detail in dateDetail| orderBy: 'period'" >
+                {{'{{detail.period}} {{detail.room}} {{detail.course_name}} '}}
+                <i ng-repeat="instructor in detail.instructors">{{'{{instructor.lastname}} {{instructor.firstname}}'}}</i>
+            </span>
+        </div>
+    </div>
+                    
+    <div ng-init="classes = { 
+        {% for class in classes %}
+            '{{ class.name }}': '{{ class.name }}' {%if not loop.last %},{%endif%} 
+        {% endfor %}
+        }"></div>
+    <div ng-init="selectedName = location.search().class"></div>
+    <div ng-init="filterClass()"></div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    var filter_url = "{{ url('qtu_tkb_timetable_class_filter_json') }}";
+
+    $(function(){
+{#        $(document).foundation();#}
+{#        parseUrl();#}
+    });
+</script>
+{% endblock javascript%}

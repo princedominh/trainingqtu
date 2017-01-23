@@ -1,0 +1,269 @@
+<table style="width:100%">
+    <thead>
+        <tr>
+            <th rowspan="3"><input type="checkbox" /></th>
+            {#<th rowspan="3">Khoa</th>#}
+            <th rowspan="3">Lớp</th>
+            <th rowspan="3">Học phần</th>
+            <th rowspan="3">Giảng viên</th>
+            <th rowspan="3">Tổng tiết</th>
+            <th colspan="7">
+    <div class="row">
+        <div class="small-1 columns">{#<a title="Tuần trước" class="previous-week"><i class="fi-arrow-left"></i></a>#}</div>
+        <div class="small-10 columns weekinschedule" id="current-week">Tuần 41 (11/5 đến 17/5)</div>
+        <div class="small-1 columns">{#<a title="Tuần tiếp theo" class="next-week"><i class="fi-arrow-right"></i></a>#}</div>
+    </div>
+</th>
+</tr>
+<tr>
+    <th class="dateofweek">2</th>
+    <th class="dateofweek">3</th>
+    <th class="dateofweek">4</th>
+    <th class="dateofweek">5</th>
+    <th class="dateofweek">6</th>
+    <th class="dateofweek">7</th>
+    <th class="dateofweek">CN</th>
+</tr>
+<tr>
+    <th class="dateinschedule">11/5</th>
+    <th class="dateinschedule">12/5</th>
+    <th class="dateinschedule">13/5</th>
+    <th class="dateinschedule">14/5</th>
+    <th class="dateinschedule">15/5</th>
+    <th class="dateinschedule">16/5</th>
+    <th class="dateinschedule">17/5</th>
+</tr>
+</thead>
+<tbody>
+    {% for course in courses %}
+        {% for instructor in course.instructors %}
+            <tr class="row_cid_{{ course.id }}" course_id="{{ course.id }}" instructor_id="{{ instructor.id }}">
+                <td><input type="checkbox" id="row_course_id_{{ course.id }}{{ instructor.id }}" /></td>
+                {#<td>CNTT</td>#}
+                <td>{% for classP in course.classes %}
+                    {{ classP.name }}
+                {% endfor%}</td>
+                <td>
+                    <span course-id="{{ course.id }}" data-tooltip aria-haspopup="true" title="Bắt đầu học: <br/>Kết thúc học" class="has-tip">
+                        {{ course.name }}
+                    </span>
+                    {% if course.getNeedProjector %}<i class="fi-projection-screen" title="Máy chiếu"></i>{% endif %}
+                    {% if course.getNeedMic %}<i class="fi-microphone" title="Máy chiếu"></i>{% endif %}
+                </td>
+                <td>
+                    <span data-tooltip aria-haspopup="true" title="Click vào để xem lịch giảng viên!" class="has-tip instructor" inst-id="{{ instructor.id }}">{{ instructor.lastname }} {{ instructor.firstname }}</span>
+                </td>
+                <td>
+                    <span class="label">LT {{ course.classHours }}</span>{%if course.labHours > 0%} <span class="round label">TH {{ course.labHours }}</span>{%endif%}
+                    <span class="warning label" id="course_approved_{{ course.id }}" instructor_id="{{ instructor.id }}"></span>
+                    {%if course.labHours > 0%}<span class="round warning label" id="course_approved_lab_{{ course.id }}" instructor_id="{{ instructor.id }}"></span>{%endif%}
+                </td>
+                <td class="cell_details"><div class="cell_period" date_order="0"></div></td>
+                <td class="cell_details"><div class="cell_period" date_order="1"></div></td>
+                <td class="cell_details"><div class="cell_period" date_order="2"></div></td>
+                <td class="cell_details"><div class="cell_period" date_order="3"></div></td>
+                <td class="cell_details"><div class="cell_period" date_order="4"></div></td>
+                <td class="cell_details"><div class="cell_period" date_order="5"></div></td>
+                <td class="cell_details"><div class="cell_period" date_order="6"></div></td>
+            </tr>
+        {% endfor%}
+    {% endfor %}
+</tbody>
+</table>
+
+<script>
+    var course_data= [
+        {% for course in courses %}
+                { id:{{course.id}}, detail: [
+                    {% set total_period = {} %} {% set total_period_all = 0 %}
+                    {% for instructor in course.instructors %}
+                        {% set total_period = total_period | merge( {('i'~instructor.id): 0} ) %}
+                    {% endfor %}
+                    {% for detail in course.getScheduleDetails%}
+                        {%if detail.instructor is null %}
+                            {% if (detail.period=='1') or (detail.period=='3') or (detail.period=='5') or (detail.period=='7') %}{% set total_period_all = total_period_all + 1 %}{%endif%}
+                            {% if (detail.period=='1-2') or (detail.period=='3-4') or (detail.period=='5-6') or (detail.period=='7-8') or (detail.period=='9-10') or (detail.period=='10-11') %}{% set total_period_all = total_period_all + 2 %}{%endif%}
+                            {% if (detail.period=='1-3') or (detail.period=='2-4') or (detail.period=='5-7') or (detail.period=='6-8') or (detail.period=='9-11') %}{% set total_period_all = total_period_all + 3 %}{%endif%}
+                            {% if (detail.period=='1-4') or (detail.period=='5-8') %}{% set total_period_all = total_period_all + 4 %}{%endif%}
+                                {   id: {{detail.id}}, instructor_id:'{% for instructor in course.instructors %}{{instructor.id}}{%if not loop.last %},{%endif%}{% endfor %}', dateOccur: '{{detail.dateOccur|date('d/m/Y') }}', period: '{{detail.period}}', description: '{{detail.description}}', hasDone: '{{detail.hasDone}}', inLate: {{detail.inLate}}, outSoon: {{detail.outSoon}}, room: '{{detail.room.name}}', type: {{detail.typeDetail}}, totalto: {{total_period_all}} } {%if not loop.last %},{%endif%}
+                        {% else %}
+                            {% if (detail.period=='1') or (detail.period=='3') or (detail.period=='5') or (detail.period=='7') %}{% set total_period = total_period|merge({('i'~detail.instructor.id):(total_period[('i'~detail.instructor.id)] +1)}) %}{%endif%}
+                            {% if (detail.period=='1-2') or (detail.period=='3-4') or (detail.period=='5-6') or (detail.period=='7-8') or (detail.period=='9-10') or (detail.period=='10-11') %}{% set total_period = total_period|merge({('i'~detail.instructor.id):(total_period['i'~detail.instructor.id] +2)}) %}{%endif%}
+                            {% if (detail.period=='1-3') or (detail.period=='2-4') or (detail.period=='5-7') or (detail.period=='6-8') or (detail.period=='9-11') %}{% set total_period = total_period|merge({('i'~detail.instructor.id):(total_period[('i'~detail.instructor.id)] +3)}) %}{%endif%}
+                            {% if (detail.period=='1-4') or (detail.period=='5-8') %}{% set total_period = total_period|merge({('i'~detail.instructor.id):(total_period[('i'~detail.instructor.id)] +4)}) %}{%endif%}
+                                {   id: {{detail.id}}, instructor_id:{{detail.instructor.id}}, dateOccur: '{{detail.dateOccur|date('d/m/Y') }}', period: '{{detail.period}}', description: '{{detail.description}}', hasDone: '{{detail.hasDone}}', inLate: {{detail.inLate}}, outSoon: {{detail.outSoon}}, room: '{{detail.room.name}}', type: {{detail.typeDetail}}, totalto: {{total_period[('i'~detail.instructor.id)]}} } {%if not loop.last %},{%endif%}
+                        {% endif%}
+                    {% endfor %}
+                ]} {%if not loop.last %},{%endif%}
+
+        {% endfor %}
+    ];
+    
+    newcourse_data= []; //dữ liệu để thêm
+    delcourse_data= []; //dữ liệu để xóa
+    var currentWeek = 0;
+    var selectPeriod = null;
+    
+    function loadWeek(week){
+        $("#current-week").text("Tuần "+ (week+1) + " ("+schedule_data[week].data[0].date+" đến "+schedule_data[week].data[6].date+")");
+        
+        //reset period
+        $(".cell_details .cell_period").html("");
+        $(".cell_details .cell_period").attr('data_used',',');
+        
+        var t_d = 0;
+        $(".dateinschedule").each(function(){
+            $(this).text(schedule_data[week].data[t_d].shortdate);
+            //fill course_data
+            for(var i=0; i<course_data.length; i++) {
+                for(var j=0; j<course_data[i].detail.length; j++) {
+                    if(schedule_data[week].data[t_d].date == course_data[i].detail[j].dateOccur){
+//                        var divPeriod = ('<span class="'+class_p[course_data[i].detail[j].period]+'">'+course_data[i].detail[j].period+'<i> '+course_data[i].detail[j].room+'</i></span>');
+                        var currentCell = $('.row_cid_'+course_data[i].id+'[instructor_id="'+course_data[i].detail[j].instructor_id+'"] .cell_details .cell_period').eq(t_d);
+                        currentCell.ttdetail({
+                            class_p     : class_period[course_data[i].detail[j].period].class + ' has-tip',
+                            class_type  : class_type[course_data[i].detail[j].type],
+                            object_id   : course_data[i].detail[j].id,
+                            room        : course_data[i].detail[j].room,
+                            period      : course_data[i].detail[j].period,
+                            date_occur  : course_data[i].detail[j].dateOccur,
+                            title       : ('Dạy được '+course_data[i].detail[j].totalto)
+                        });
+                    }
+                }
+            }
+            for(var i=0; i<newcourse_data.length; i++){
+                for(var j=0; j<newcourse_data[i].detail.length; j++) {
+                    if(schedule_data[week].data[t_d].date === newcourse_data[i].detail[j].dateOccur){
+                        var currentCell = $(".row_cid_"+newcourse_data[i].id+" .cell_details .cell_period").eq(t_d);
+                            currentCell.ttdetail({
+                                class_type  : class_type[newcourse_data[i].detail[j].type],
+                                room        : newcourse_data[i].detail[j].room_name,
+                                period      : newcourse_data[i].detail[j].period,
+                                date_occur  : newcourse_data[i].detail[j].dateOccur
+                            });
+
+                            //update data_used
+                            var dataUsed2 = currentCell.attr('data_used');
+                            var dataUse2 = class_period[course_data[i].detail[j].period].use;
+                            for(var k=0; k < dataUse2.length; k++){
+                                dataUsed2+= ''+dataUse2[k]+',';
+                            }
+                            currentCell.attr('data_used',dataUsed2);
+                    }
+                }
+            }
+            t_d++;
+
+        });
+        
+        //active click add button
+        $(document).foundation();
+        $("#addperiodModal").unbind('click');
+        $("#addperiodModal").click(addPeriod);
+    }
+    function addPeriod() {
+        //add to the GUI
+        selectPeriod.parents(".cell_details").children(".cell_period").ttdetail({
+{#                room       : $("select[name=add_room]").find(":selected").text(),#}
+            room        : $('input[name=add_room]:checked').attr('text'),
+            period      : class_period[$('input[name=add_period]:checked').val()].text,
+            date_occur  : schedule_data[currentWeek].data[selectPeriod.parents(".cell_details").children(".cell_period").attr('date_order')].date,
+            class_type  : class_type[$('input[name=add_period_type]:checked').val()]
+        });
+
+        //add to newcouse_data
+        var temp_repeat = parseInt($('input[name=add_repeat]').val());
+        if(temp_repeat>=1) {
+            var date_begin = moment(schedule_data[currentWeek].data[selectPeriod.parents(".cell_details").children(".cell_period").attr('date_order')].date, 'DD/MM/YYYY'); //date occur (13/02/2015)
+            for(var i=1; i<=temp_repeat; i++){
+                addCourseDetail(
+                        selectPeriod.parents("tr").attr('course_id'), //courseid
+                        selectPeriod.parents("tr").attr('instructor_id'), //instructor_id
+                        $('input[name=add_period]:checked').val(),  //period (1-4)
+                        moment(date_begin).format('DD/MM/YYYY'),
+                        $('input[name=add_room]:checked').val(), // room
+                        $('input[name=add_room]:checked').attr('text'), // room name
+                        $('input[name=add_period_type]:checked').val() //type: 0: ly thuyet, 1: thuc hanh
+                );
+                date_begin = moment(date_begin).add(7, 'days');
+            }
+        }
+
+        $('#addperiodModal').foundation('reveal', 'close');
+
+        $(document).foundation();
+    }
+    function addCourseDetail(courseid, instructorid, period, dateOccur, room, room_name, type){
+        var course_index = -1;
+        for(var i=0; i < newcourse_data.length; i++){
+            if(newcourse_data[i].id === courseid) {
+                course_index = i;
+            }
+        }
+
+        var period_title = class_period[period].text;
+        if(course_index !== -1){
+            newcourse_data[course_index].detail.push({ dateOccur: dateOccur, instructor_id: instructorid, period: period_title, room: room, room_name:room_name, type: type});
+        } else {
+            newcourse_data.push({id:courseid, detail: [{ dateOccur: dateOccur, instructor_id: instructorid, period: period_title, room: room, room_name:room_name, type: type}]});
+        }
+    }
+    function instructorFilter() {
+        $("#instructor_table").html('<img src="{{ asset('images/loading.gif')}}" />');
+        var inst_flt_url = "{{ url('qtu_tkb_timetable_builder_instructor') }}";
+        $.ajax({
+            url: inst_flt_url,
+            data: {id: $(this).attr('inst-id'),term:$("select[name='term']").val()},
+            }).done(function(response) {
+                $("#instructor_table").html(response);
+        });
+    }
+    
+    
+    $(function() {
+        //update approved period, start and stop each course + eache instructor
+        for(var i=0; i<course_data.length; i++){
+            var countPeriod = 0;
+            var countPeriodLab = 0;
+            var j = 0;
+            for(j=0; j<course_data[i].detail.length; j++) {
+                if(course_data[i].detail[j].type===0){
+                    countPeriod = parseInt($('#course_approved_'+course_data[i].id+'[instructor_id="'+course_data[i].detail[j].instructor_id+'"]').text());
+                    countPeriod = (isNaN(countPeriod) ? 0: countPeriod);
+                    countPeriod+= class_period[course_data[i].detail[j].period].count;
+                    $('#course_approved_'+course_data[i].id+'[instructor_id="'+course_data[i].detail[j].instructor_id+'"]').text(countPeriod);
+                } else if (course_data[i].detail[j].type===1){
+                    countPeriodLab = parseInt($('#course_approved_lab_'+course_data[i].id+'[instructor_id="'+course_data[i].detail[j].instructor_id+'"]').text());
+                    countPeriodLab = (isNaN(countPeriodLab)? 0: countPeriodLab);
+                    countPeriodLab+= class_period[course_data[i].detail[j].period].count;
+                    $('#course_approved_lab_'+course_data[i].id+'[instructor_id="'+course_data[i].detail[j].instructor_id+'"]').text(countPeriodLab);
+                }
+            }
+   
+            //start and stop
+            if(course_data[i].detail.length > 0) {
+                $("span[course-id="+course_data[i].id+"]").attr('title','Bắt đầu: '+course_data[i].detail[0].dateOccur + '<br />Kết thúc:'+course_data[i].detail[j-1].dateOccur);
+            }
+        }
+        currentWeek = parseInt($("select[name='week']").val());
+        loadWeek(currentWeek);
+{#        loadWeek#}
+        
+        //add the Add button
+        $(".cell_details").each(function(){
+            {#<a href="#" data-reveal-id="addPeriodModal"></a>#}
+            var addButton = $("<a></a>").attr('data-reveal-id','addPeriodModal').append($('<i></i>').attr('class','fi-plus'));
+            addButton.on('click',function(){
+                selectPeriod = $(this); 
+            });
+            $(this).append(addButton);
+        });
+
+        //instructor timetable filter
+        $(".instructor").on("click",instructorFilter);
+        
+        $(document).foundation();
+    });
+    
+</script>

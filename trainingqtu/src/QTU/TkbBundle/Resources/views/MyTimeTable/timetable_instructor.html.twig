@@ -1,0 +1,136 @@
+<div class="row">
+    <div class="large-7 columns">
+        Ghi chú: <span class="label">Tiết theo kế hoạch</span> 
+        <span class="warning label">Tổng tiết được phân công trên hệ thống</span>
+    </div>
+    <div class="large-5 columns">
+        <span class="success label">Sáng</span>
+        <span class="alert label">Chiều</span>
+        <span class="secondary label">Tối</span>
+        <span class="info radius label">Thi</span>
+    </div>
+</div>
+<div style=" overflow-x: scroll;">
+    <table style="width:100%;">
+        <thead>
+            <tr>
+                <th rowspan="3"><input type="checkbox" /></th>
+                    {#<th rowspan="3">Khoa</th>#}
+                <th rowspan="3">Lớp</th>
+                <th rowspan="3">Học phần</th>
+                <th rowspan="3">Tổng tiết</th>
+                <th colspan="7">
+                    <div class="row">
+                        <div class="small-1 columns"><a title="Tuần trước" id="previous-week-inst"><i class="fi-arrow-left"></i></a></div>
+                        <div class="small-10 columns weekinschedule" id="current-week-inst"></div>
+                        <div class="small-1 columns"><a title="Tuần tiếp theo" id="next-week-inst"><i class="fi-arrow-right"></i></a></div>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th class="dateofweek">2</th>
+                <th class="dateofweek">3</th>
+                <th class="dateofweek">4</th>
+                <th class="dateofweek">5</th>
+                <th class="dateofweek">6</th>
+                <th class="dateofweek">7</th>
+                <th class="dateofweek">CN</th>
+            </tr>
+            <tr>
+                <th class="dateinschedule-inst"></th>
+                <th class="dateinschedule-inst"></th>
+                <th class="dateinschedule-inst"></th>
+                <th class="dateinschedule-inst"></th>
+                <th class="dateinschedule-inst"></th>
+                <th class="dateinschedule-inst"></th>
+                <th class="dateinschedule-inst"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+                <tr class="row_cid_inst_{{ course.id }}" course_id="{{ course.id }}">
+                    <td><input type="checkbox" id="row_course_id_inst_{{ course.id }}" /></td>
+                        {#<td>CNTT</td>#}
+                    <td>{% for classP in course.classes %}
+                        {{ classP.name }}
+                    {% endfor%}</td>
+                <td>{{ course.name }}
+                    {% if course.getNeedProjector %}<i class="fi-projection-screen" title="Máy chiếu"></i>{% endif %}
+                    {% if course.getNeedMic %}<i class="fi-microphone" title="Máy chiếu"></i>{% endif %}
+                </td>
+                <td>
+                    <span class="label">LT {{ course.classHours }}</span>{%if course.labHours > 0%} <span class="round label">TH {{ course.labHours }}</span>{%endif%}
+                    <span class="warning label" id="course_approved_{{ course.id }}"></span>
+                    {%if course.labHours > 0%}<span class="round warning label" id="course_approved_lab_{{ course.id }}"></span>{%endif%}
+                </td>
+                <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+                <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+                <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+                <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+                <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+                <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+                <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var course_instructor_data = [
+        {% for course in courses %}
+            { id:{{course.id}}, detail: [
+            {% set total_period = 0 %}
+            {% for detail in course.getScheduleDetails%}
+            {% if (detail.period=='1-2') or (detail.period=='3-4') or (detail.period=='5-6') or (detail.period=='7-8') or (detail.period=='9-10') or (detail.period=='10-11') %}{% set total_period = total_period+2 %}{%endif%}
+        {% if (detail.period=='1-3') or (detail.period=='2-4') or (detail.period=='5-7') or (detail.period=='6-8') or (detail.period=='9-11') %}{% set total_period = total_period+3 %}{%endif%}
+    {% if (detail.period=='1-4') or (detail.period=='5-8') %}{% set total_period = total_period+4 %}{%endif%}
+                                {   id:{{detail.id}}, dateOccur: '{{detail.dateOccur|date('d/m/Y') }}', period: '{{detail.period}}', description: '{{detail.description}}', hasDone: '{{detail.hasDone}}', inLate:{{detail.inLate}}, outSoon:{{detail.outSoon}}, room: '{{detail.room.name}}', type:{{detail.typeDetail}}, totalto: {{total_period}} }{%if not loop.last %},{%endif%}
+{% endfor %}                         
+                                ]}{%if not loop.last %},{%endif%}
+{% endfor %}
+                ];
+
+        $(function () {
+
+            loadInstructorWeek(currentWeek);
+
+            $("#next-week-inst").on("click", function () {
+                currentWeek = parseInt($("select[name='week'] option:selected").val());
+                if (currentWeek + 1 >= countWeek) {
+                    console.log("Vượt quá");
+                } else {
+                    currentWeek = currentWeek + 1;
+                    $("select[name='week']").val($("select[name='week'] option[value='"+currentWeek+"']").val());
+                    $("select[name='week']").trigger('change');
+                }
+            });
+            $("#previous-week-inst").on("click", function () {
+                currentWeek = parseInt($("select[name='week'] option:selected").val());
+                if (currentWeek - 1 < 0) {
+                    console.log("Nhỏ quá");
+                } else {
+                    currentWeek = currentWeek - 1;
+                    $("select[name='week']").val($("select[name='week'] option[value='"+currentWeek+"']").val());
+                    $("select[name='week']").trigger('change');
+                }
+            });
+
+            //update approved period
+            for (var i = 0; i < course_instructor_data.length; i++) {
+                var countPeriod = 0;
+                var countPeriodLab = 0;
+                for (var j = 0; j < course_instructor_data[i].detail.length; j++) {
+                    if (course_instructor_data[i].detail[j].type === 0) {
+                        countPeriod += class_period[course_instructor_data[i].detail[j].period].count;
+                    } else if (course_instructor_data[i].detail[j].type === 1) {
+                        countPeriodLab += class_period[course_instructor_data[i].detail[j].period].count;
+                    }
+                }
+                $("#course_approved_" + course_instructor_data[i].id).text(countPeriod);
+                $("#course_approved_lab_" + course_instructor_data[i].id).text(countPeriodLab);
+            }
+
+            $(document).foundation();
+        });
+
+</script>

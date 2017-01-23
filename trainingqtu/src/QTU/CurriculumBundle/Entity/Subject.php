@@ -2,6 +2,7 @@
 
 namespace QTU\CurriculumBundle\Entity;
 
+use QTU\DepartmentMajorBundle\Entity\Department as Department;
 /**
  * Subject
  */
@@ -30,23 +31,32 @@ class Subject
     /**
      * @var boolean
      */
-    private $ntheory = '0';
+    private $ntheory = 0;
 
     /**
      * @var boolean
      */
-    private $npractice = '0';
+    private $npractice = 0;
 
     /**
      * @var boolean
      */
-    private $nproject = '0';
+    private $nproject = 0;
 
     /**
      * @var string
      */
     private $condition;
 
+    /**
+     * @var QTU\DepartmentMajorBundle\Entity\Department
+     */
+    private $department;
+
+
+    public function __toString() {
+        return $this->code . ' - ' . $this->name;
+    }
 
     /**
      * Get id
@@ -225,4 +235,30 @@ class Subject
     {
         return $this->condition;
     }
+    
+    /**
+     * Set department
+     *
+     * @param \QTU\DepartmentMajorBundle\Entity\Department $department
+     *
+     * @return Major
+     */
+    public function setDepartment(\QTU\DepartmentMajorBundle\Entity\Department $department = null)
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    /**
+     * Get department
+     *
+     * @return \QTU\DepartmentMajorBundle\Entity\Department
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    
 }

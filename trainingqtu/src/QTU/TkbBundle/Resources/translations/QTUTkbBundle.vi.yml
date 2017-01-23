@@ -1,0 +1,42 @@
+btn_execute_batch_confirmation: "Thực hiện"
+
+flash_batch_course_not_exist: "Môn học không có"
+
+"Subject List": "Danh sách học phần gốc"
+title_user_authentication: "Đăng nhập"    
+
+tkb:
+    faculty: "Đơn vị"
+    classp: "Lớp"
+    course: 
+        title:      "Môn học"
+        name:       "Tên môn"
+        instructor: "Giảng viên"
+        class_p:    "Lớp"
+        credit:     "Tín chỉ"
+        class_hours: "Tiết lý thuyết"
+        lab_hours:  "Tiết thực hành"
+        projector:  "Máy chiếu"
+        mic:        "Mic"
+        description: "Mô tả"
+        startat:    "Bắt đầu"
+        stopat:     "Kết thúc"
+        finish:     "Hoàn thành"
+        term:       "Học kỳ"
+    room:
+        title:      "Phòng học"
+    term:
+        title:      "Học kỳ"
+    subject:
+        title:      "Học phần gốc"
+        code:       "Mã học phần"
+        name:       "Tên học phần"
+        credit:     "Tín chỉ"
+        credit_s:   "TC"
+        classCredit: "Tín chỉ Lý thuyết"
+        classCredit_s: "LT"
+        labCredit:  "Tín chỉ Thực hành"
+        labCredit_s: "TH"
+        projectCredit: "Tín chỉ Đồ án"
+        projectCredit_s:    "Đ.A"
+        metadata:   "Metadata"

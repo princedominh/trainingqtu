@@ -1,0 +1,44 @@
+{% extends ":instructor:instructorbase_angularfoundation.html.twig" %}
+
+{% block title %}{{ app.user.lastname }} {{ app.user.firstname }} - Lịch cá nhân{% endblock %}
+
+{% block notices %}
+    <ul class="off-canvas-list">
+        {% for notice in notices %}
+            <li data-orbit-slide="headline-{{ notice.id}}">
+                <div>
+                    <h6><a href="{{ path('qtu_common_notice',{slug:notice.slug}) }}">{{ notice.title }}</a></h6>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock notices%}
+
+{% block body %}
+    <div class="row">
+        <div class="large-3 columns">
+            <h3>
+                {{ instructor.lastname }} {{ instructor.firstname }}
+            </h3>
+        </div>
+{#        <div class="large-9 columns">
+            <ul class="menu simple">
+                <li><a href="#/">Lịch cá nhân</a></li>
+                <li><a href="#/mynotice">Thông báo cá nhân</a></li>
+                <li><a href="#/myaccount">Thông tin cá nhân</a></li>
+            </ul>
+        </div>#}
+    </div>
+
+    <div class="ng-view"></div>
+    
+    <div ng-init="terms = [ 
+        {% for term in terms %}
+            { 'id': '{{ term.id }}','name': '{{ term.semester }} - {{ term.year }}' }{%if not loop.last %},{%endif%} 
+        {% endfor %}
+        ]"></div>
+{% endblock body %}
+
+{% block javascript %}
+    <script src="{{ asset('apps/components/instructor/instructorDirective.js') }}"></script>
+{% endblock javascript%}

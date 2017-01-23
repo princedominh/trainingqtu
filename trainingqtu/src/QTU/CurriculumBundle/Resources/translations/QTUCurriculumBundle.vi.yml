@@ -1,0 +1,29 @@
+CurriculumForMajor: "CTĐT cho Ngành"
+"Curriculum For Major List": "Danh sách CTĐT cho Ngành"
+"Curriculum For Major Create": "Thêm mới CTĐT cho Ngành"
+
+KnowledgeBlock: "Khối kiến thức"
+"Knowledge Block Create": "Thêm mới Khối kiến thức"
+"Knowledge Block Details": "Chi tiết Khối kiến thức"
+"Knowledge Block List": "Danh sách Khối kiến thức"
+
+Subject: "Học phần"
+"Subject List": "Danh sách Học phần"
+
+
+#Fields, columns
+Action: "Hành động"
+
+Code: "Mã"
+Credit: "TC"
+
+Department: "Khoa"
+Description: "Mô tả"
+
+"Major Details": "Chi tiết ngành"
+
+Name: "Tên"
+Npractice: TH
+Nproject: Đ/A
+Ntheory: LT
+

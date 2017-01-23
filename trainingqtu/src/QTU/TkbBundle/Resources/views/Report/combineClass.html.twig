@@ -1,0 +1,40 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Thống kê - Lớp ghép{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/tkb_lien.css') }}" />
+{% endblock %}
+
+{% block body %}
+        <div class="row">
+            <div class="large-12 columns">
+                <h1>Thời khóa biểu - Trang Thống kê - Lớp ghép</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-3 medium-4 columns">
+                <ul class="side-nav">
+                    <li class="active"><a href="{{ path('qtu_tkb_report_combineclass') }}">Lớp ghép</a></li>
+                    <li><a href="#">Link 2</a></li>
+                    <li><a href="#">Link 3</a></li>
+                    <li><a href="#">Link 4</a></li>
+                </ul>
+            </div>
+            <div class="large-9 medium-8 columns">
+                <table>
+                    <tr>
+                        <th>Môn học</th>
+                        <th>Lớp</th>
+                    </tr>
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.obj.name }}</td>
+                        <td>{{ course.classname }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+{% endblock %}

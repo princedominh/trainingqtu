@@ -1,0 +1,116 @@
+<!doctype html>
+<html ng-app="qtuApp">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Trang Thời khóa biểu - Đại học Quang Trung (TKB)" />
+        <meta name="keywords" content="thời khóa biểu, tkb, đại học quang trung, phòng đào tạo" />
+        <title>{% block title %}Thời khóa biểu - Đại học Quang Trung{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('foundation-5.5.3/css/foundation.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('css/tkb_anfo.css') }}" />
+            <link rel="stylesheet" href="{{ asset('css/foundation-icons.css') }}" />
+            <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+            <link rel="stylesheet/less" type="text/css" href="{{ asset('css/tkb_less.less') }}" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        <script src="{{ asset('js/jquery-2.1.4.min.js') }}"></script>
+        <script src="{{ asset('angular-1.4.9/angular.min.js') }}"></script>
+        <script src="{{ asset('angular-foundation/mm-foundation-tpls-0.8.0.min.js') }}"></script>
+        <script src="{{ asset('js/vendor/select2.js') }}"></script>
+        <script src="{{ asset('js/vendor/angular-ui-select2.js') }}"></script>
+        <script src="{{ asset('js/less.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('js/moment.js') }}"></script>
+        <script src="{{ asset('js/angular-moment.min.js') }}"></script>
+        <script src="{{ asset('js/tkbcalendar.js') }}"></script>
+        <script>
+{#            moment.locale('vi',{
+                week : {
+                    dow : 1, // Monday is the first day of the week.
+                    doy : 4  // The week that contains Jan 4th is the first week of the year.
+                }
+            });
+#}        </script>
+    </head>
+    <body>
+        <div class="row">
+            <div class="large-12.columns">
+                <div ng-controller="tkbCtrl">
+                    <div class="off-canvas-wrap">
+                        <div class="inner-wrap">
+                            <nav class="tab-bar">
+                                <section class="left-small">
+                                    <a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+                                </section>
+
+                                <section class="middle tab-bar-section">
+                                    <h1 class="title left-off-canvas-toggle"><a href="{{ url('qtu_tkb_homepage') }}"><img src="{{ asset('/web/images/logo_32.png') }}" /> TKB</a></h1>
+                                </section>
+
+                                <section class="right-small">
+                                    <a class="right-off-canvas-toggle menu-icon" ><span></span></a>
+                                </section>
+
+                            </nav>
+
+                            <aside class="left-off-canvas-menu">
+                                <ul>
+                                    <li><a href="{{ url('qtu_tkb_homepage') }}">Trang chủ TKB</a></li>
+                                </ul>
+                                <!-- Left Nav Section -->
+                                {{ knp_menu_render('QTUCommonBundle:Builder:mainMenu', {'class':'left'}) }}
+                                <!-- Right Nav Section -->
+                                <ul class="left">
+                                    <li><label>Người dùng</label></li>
+                                    {% if app.user is not null %}
+                                        <li class="has-dropdown">
+                                            <a href="#"><i class="fi-torso"></i> {{ app.user.lastname ~ ' ' ~ app.user.firstname}}</a>
+                                            <ul class="dropdown">
+                                                <li><a href="{{ url('fos_user_profile_show') }}"><i class="fi-widget"></i> Quản lý tài khoản</a></li>
+                                                <li class="active"><a href="/logout"><i class="fi-power"></i> Thoát</a></li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <li><a href="/register">Đăng ký</a></li>
+                                        <li><a href="{{ url('fos_user_security_login') }}">Đăng nhập</a></li>
+                                        {% endif %}
+                                </ul>
+                            </aside>
+                            <aside class="right-off-canvas-menu">
+                                <ul class="off-canvas-list">
+                                    <li><a href="#">Thông báo mới</a></li>
+                                </ul>
+                                {% block notices %}{% endblock notices %}
+                            </aside>
+                            <section class="main-section">
+                                {% block flashbag %}{% endblock %}
+                                <div class="row">
+                                    <div class="large-12 columns">
+                                        <h1>Thời khóa biểu - Lịch</h1>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="large-12 columns">
+                                        <calendar selected="day"></calendar>
+                                        
+                                    </div>
+                                    <div class="large-12 columns">
+                                        <div>{{ '{{day.format("dddd, MMMM Do YYYY")}}' }}</div>
+                                    </div>
+                                </div>
+                            </section>
+                            {% block footer %}
+                                {% include ':default:footer.html.twig' %}
+                            {% endblock %}
+
+                            <a class="exit-off-canvas"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

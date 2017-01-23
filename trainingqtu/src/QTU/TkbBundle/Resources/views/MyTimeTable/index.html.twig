@@ -1,0 +1,135 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Lịch cá nhân{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+{% endblock %}
+
+{% block body %}
+ <div class="row">
+    <div class="large-6 columns">
+        <h3>
+            Lịch giảng dạy của giảng viên {{ instructor.lastname }} {{ instructor.firstname }}
+        </h3>
+    </div>
+    <div class="large-4 columns">
+        <label>Tuần
+            <select name="week"></select>
+        </label>
+    </div>
+    <div class="large-2 columns">
+        <label>Học kỳ
+            <select name="term">
+                <option value="">---</option>
+                {% for term in terms %}
+                    <option value="{{ term.id }}">{{ term.semester }} - {{ term.year }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+</div>
+  <div class="row">
+      <div class="large-12 columns" id="filter_table"></div>
+  </div>
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tkb.js') }}"></script>
+    <script type="text/javascript">
+
+    var filter_url = "{{ url('qtu_tkb_mytimetable_instructor') }}";
+    var userId = "{{ instructor.id }}";
+    
+    function loadInstructorWeek(week) {
+        updateUrl();
+        $("#current-week-inst").text("Tuần " + (week + 1) + " (" + schedule_data[week].data[0].date + " đến " + schedule_data[week].data[6].date + ")");
+
+        //reset period
+        $(".cell_details_inst .cell_period").html("");
+
+        var t_d = 0;
+        $(".dateinschedule-inst").each(function () {
+            $(this).text(schedule_data[week].data[t_d].shortdate);
+            for (var i = 0; i < course_instructor_data.length; i++) {
+                for (var j = 0; j < course_instructor_data[i].detail.length; j++) {
+                    if (schedule_data[week].data[t_d].date == course_instructor_data[i].detail[j].dateOccur) {
+                        var divPeriod = ('<span data-tooltip aria-haspopup="true"  class="has-tip ' + class_period[course_instructor_data[i].detail[j].period].class + ' ' + class_type[course_instructor_data[i].detail[j].type] + '" title="Dạy được ' + course_instructor_data[i].detail[j].totalto + '">' + course_instructor_data[i].detail[j].period + ' <i>' + course_instructor_data[i].detail[j].room + '</i></span>');
+                        $(".row_cid_inst_" + course_instructor_data[i].id + " .cell_details_inst .cell_period").eq(t_d).append(divPeriod);
+                    }
+                }
+            }
+            t_d++;
+        });
+    }
+
+    function parseUrl(){
+        var params = $(location).attr('hash').replace('#', '').split('&');
+        var week = currentWeek+1;
+        var term = {{current_term.id}};
+        for(var i = 0; i < params.length; i++){
+            var subparams = params[i].split('=');
+            if (subparams[0] == 'week') week = parseInt(subparams[1]);
+            if (subparams[0] == 'term') term = parseInt(subparams[1]);
+        }
+        $("select[name='week'] option:selected").removeAttr("selected");
+        $("select[name='week']").find("option[value='"+(week-1)+"']").attr('selected', 'selected');
+        $("select[name='term'] option:selected").removeAttr("selected");
+        $("select[name='term']").find("option[value='"+(term)+"']").attr('selected', 'selected');
+    }
+
+    function updateUrl() {
+        var protocol = $(location).attr('protocol');
+        var host = $(location).attr('host');
+        var pathname = $(location).attr('pathname');
+
+        var term = parseInt($("select[name='term'] option:selected").val());
+        var week = parseInt($("select[name='week'] option:selected").val());
+
+        window.location.href = protocol + '//' + host + pathname + '#week=' + (week + 1) + '&term=' + term;
+    }
+
+    function filterInstructor(){
+          $("#filter_table").html('<img src="{{ asset('images/loading.gif')}}" />');
+          $.ajax({
+              url: filter_url,
+              data: {id:userId, term_id: $("select[name='term'] option:selected").val()  }
+              }).done(function(response) {
+                  $("#filter_table").html(response);
+          });
+          
+    }
+    $(function(){
+{#            $("select[name='term']").find("option[value='{{current_term.id}}']").attr('selected', 'selected');#}
+            /*********** Init Week ***********/
+            for (var i = 0; i < schedule_data.length; i++)
+            {
+                if (isCurentWeek(schedule_data[i].data[0].date, schedule_data[i].data[6].date)) {
+                    currentWeek = i;
+                }
+                $("select[name='week']").append($('<option></option>').attr('value', i).text(schedule_data[i].weekname + " (" + schedule_data[i].data[0].date + " đến " + schedule_data[i].data[6].date + ")"));
+            }
+            parseUrl();
+
+            /*********** EndInit Week ***********/
+            currentWeek = parseInt($("select[name='week']").val());
+            countWeek = schedule_data.length;
+            
+            $("select[name='week']").on("change", function () {
+                var currentWeek = parseInt($("select[name='week']").val());
+                loadInstructorWeek(currentWeek);
+                $(document).foundation();
+            });
+            $("select[name='term']").on("change", function () {
+                filterInstructor();
+                $(document).foundation();
+            });
+            
+            filterInstructor();
+      });
+      
+    </script>
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/vendor/jquery.tkb.js') }}"></script>
+{% endblock javascripts %}

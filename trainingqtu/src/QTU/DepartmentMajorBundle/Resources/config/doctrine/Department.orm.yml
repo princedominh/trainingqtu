@@ -23,6 +23,16 @@ QTU\DepartmentMajorBundle\Entity\Department:
             length: 255
             options:
                 fixed: false
+        slug:
+            type: string
+            nullable: false
+            length: 128
+            unique: true
+            gedmo:
+                slug:
+                    separator: "-"
+                    fields:
+                        - shortname
         address:
             type: string
             nullable: true
@@ -53,4 +63,7 @@ QTU\DepartmentMajorBundle\Entity\Department:
             length: 65535
             options:
                 fixed: false
+        is_student_management:
+            type: boolean
+            nullable: true
     lifecycleCallbacks: {  }

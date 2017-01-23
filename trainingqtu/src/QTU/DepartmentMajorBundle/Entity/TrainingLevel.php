@@ -17,6 +17,15 @@ class TrainingLevel
      */
     private $name;
 
+    /**
+     * @var string
+     */
+    private $shortname;
+
+
+    public function __toString() {
+        return $this->name;
+    }
 
     /**
      * Get id
@@ -51,4 +60,29 @@ class TrainingLevel
     {
         return $this->name;
     }
+    
+    /**
+     * Set shortname
+     *
+     * @param string $shortname
+     *
+     * @return Major
+     */
+    public function setShortname($shortname)
+    {
+        $this->shortname = $shortname;
+
+        return $this;
+    }
+
+    /**
+     * Get shortname
+     *
+     * @return string
+     */
+    public function getShortname()
+    {
+        return $this->shortname;
+    }
+
 }

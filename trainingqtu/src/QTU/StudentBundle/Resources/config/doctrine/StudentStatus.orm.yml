@@ -3,7 +3,7 @@ QTU\StudentBundle\Entity\StudentStatus:
     table: qtu_student_status
     id:
         id:
-            type: boolean
+            type: integer
             nullable: false
             id: true
             generator:

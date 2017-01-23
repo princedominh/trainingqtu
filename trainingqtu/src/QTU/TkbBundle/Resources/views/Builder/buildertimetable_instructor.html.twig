@@ -1,0 +1,166 @@
+<div class="row">
+    <div class="large-7 columns">
+        <h3>
+            Lịch giảng dạy của giảng viên {{ instructor.lastname }} {{ instructor.firstname }}
+        </h3>
+    </div>
+    <div class="large-5 columns">
+        <select name="week"></select>
+    </div>
+</div>
+<table style="width:100%">
+    <thead>
+        <tr>
+            <th rowspan="3"><input type="checkbox" /></th>
+            {#<th rowspan="3">Khoa</th>#}
+            <th rowspan="3">Lớp</th>
+            <th rowspan="3">Học phần</th>
+            <th rowspan="3">Tổng tiết</th>
+            <th colspan="7">
+                <div class="row">
+                    <div class="small-1 columns"><a title="Tuần trước" id="previous-week-inst"><i class="fi-arrow-left"></i></a></div>
+                    <div class="small-10 columns weekinschedule" id="current-week-inst"></div>
+                    <div class="small-1 columns"><a title="Tuần tiếp theo" id="next-week-inst"><i class="fi-arrow-right"></i></a></div>
+                </div>
+            </th>
+        </tr>
+<tr>
+    <th class="dateofweek">2</th>
+    <th class="dateofweek">3</th>
+    <th class="dateofweek">4</th>
+    <th class="dateofweek">5</th>
+    <th class="dateofweek">6</th>
+    <th class="dateofweek">7</th>
+    <th class="dateofweek">CN</th>
+</tr>
+<tr>
+    <th class="dateinschedule-inst"></th>
+    <th class="dateinschedule-inst"></th>
+    <th class="dateinschedule-inst"></th>
+    <th class="dateinschedule-inst"></th>
+    <th class="dateinschedule-inst"></th>
+    <th class="dateinschedule-inst"></th>
+    <th class="dateinschedule-inst"></th>
+</tr>
+</thead>
+<tbody>
+    {% for course in courses %}
+    <tr class="row_cid_inst_{{ course.id }}" course_id="{{ course.id }}">
+        <td><input type="checkbox" id="row_course_id_inst_{{ course.id }}" /></td>
+        {#<td>CNTT</td>#}
+        <td>{% for classP in course.classes %}
+            {{ classP.name }}
+        {% endfor%}</td>
+        <td>{{ course.name }}
+            {% if course.getNeedProjector %}<i class="fi-projection-screen" title="Máy chiếu"></i>{% endif %}
+            {% if course.getNeedMic %}<i class="fi-microphone" title="Máy chiếu"></i>{% endif %}
+        </td>
+        <td><span class="label">LT {{ course.classHours }}</span>{%if course.labHours > 0%} <span class="round label">TH {{ course.labHours }}</span>{%endif%}</td>
+        <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+        <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+        <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+        <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+        <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+        <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+        <td class="cell_details_inst"><div class="cell_period" data_used=","></div></td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+<script>
+    var course_instructor_data= [
+        {% for course in courses %}
+                { id:{{course.id}}, detail: [
+                    {% for detail in course.getScheduleDetails%}
+                        {   id: {{detail.id}}, dateOccur: '{{detail.dateOccur|date('d/m/Y') }}', period: '{{detail.period}}', description: '{{detail.description}}', hasDone: '{{detail.hasDone}}', inLate: {{detail.inLate}}, outSoon: {{detail.outSoon}}, room: '{{detail.room.name}}' } {%if not loop.last %},{%endif%}
+                    
+                    {% endfor %}                         
+                ]} {%if not loop.last %},{%endif%}
+
+        {% endfor %}
+    ];
+    
+    function loadInstructorWeek(week){
+        $("#current-week-inst").text("Tuần "+ (week+1) + " ("+schedule_data[week].data[0].date+" đến "+schedule_data[week].data[6].date+")");
+        
+        //reset period
+        $(".cell_details_inst .cell_period").html("");
+        
+        var t_d = 0;
+        $(".dateinschedule-inst").each(function(){
+            $(this).text(schedule_data[week].data[t_d].shortdate);
+            for(var i=0; i<course_instructor_data.length; i++) {
+                for(var j=0; j<course_instructor_data[i].detail.length; j++) {
+                    if(schedule_data[week].data[t_d].date == course_instructor_data[i].detail[j].dateOccur){
+                        var divPeriod = ('<span class="'+class_period[course_instructor_data[i].detail[j].period].class+'">'+course_instructor_data[i].detail[j].period+' <i>'+course_instructor_data[i].detail[j].room+'</i></span>');
+                        $(".row_cid_inst_"+course_instructor_data[i].id+" .cell_details_inst .cell_period").eq(t_d).append(divPeriod);
+                    }
+                }
+            }
+            t_d++;
+            
+        });
+    }
+
+    function isCurentWeek(startdate, enddate) {
+        var sdate = moment(startdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var edate = moment(enddate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var currdate = moment().format('YYYY-MM-DD');
+
+        return moment(currdate).isBetween(sdate, edate) || moment(currdate).isSame(sdate) || moment(currdate).isSame(edate);
+    }
+    
+    $(function() {
+
+        /*********** Init Week ***********/
+        for(var i=0; i<schedule_data.length; i++)
+        {
+            if (isCurentWeek(schedule_data[i].data[0].date, schedule_data[i].data[6].date)) {
+                $("select[name='week']").append($('<option></option>').attr('value', i).text(schedule_data[i].weekname+ " ("+schedule_data[i].data[0].date+" đến "+schedule_data[i].data[6].date+")").attr('selected', 'selected'));
+            }
+            else {
+                $("select[name='week']").append($('<option></option>').attr('value', i).text(schedule_data[i].weekname+ " ("+schedule_data[i].data[0].date+" đến "+schedule_data[i].data[6].date+")"));
+            }
+        }
+        /*********** EndInit Week ***********/
+        var currentWeek = parseInt($("select[name='week']").val());
+        var countWeek = schedule_data.length;
+        loadInstructorWeek(currentWeek);
+
+        $("#next-week-inst").on("click",function(){
+            currentWeek = parseInt($("select[name='week'] option:selected").val());
+            if(currentWeek+1>=countWeek) {
+                console.log("Vượt quá");
+            } else {
+                currentWeek = currentWeek + 1;
+                //$("select[name='week'] option:selected").removeAttr("selected");
+                $("select[name='week'] option").each(function(){
+                    $(this).removeAttr('selected');
+                });
+                $("select[name='week']").find("option[value='"+currentWeek+"']").attr('selected', 'selected').trigger('change');
+            }
+        });
+        $("#previous-week-inst").on("click",function(){
+            currentWeek = parseInt($("select[name='week'] option:selected").val());
+            if(currentWeek-1<0) {
+                console.log("Nhỏ quá");
+            } else {
+                currentWeek = currentWeek - 1;
+                //$("select[name='week'] option:selected").removeAttr("selected");
+                
+                $("select[name='week'] option").each(function(){
+                    $(this).removeAttr('selected');
+                });
+                $("select[name='week']").find("option[value='"+currentWeek+"']").attr('selected', 'selected').trigger('change');
+            }
+        });
+
+        $("select[name='week']").on("change", function(){
+            var currentWeek = parseInt($("select[name='week']").val());
+            loadInstructorWeek(currentWeek);
+        });       
+        $(document).foundation();
+    });
+    
+</script>

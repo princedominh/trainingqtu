@@ -1,0 +1,24 @@
+<div class="header">
+    <i class="fi-arrow-left" ng-click="previous()"></i>
+    <span>Tháng {{ '{{month.format("M - YYYY")}}' }}</span>
+    <i class="fi-arrow-right" ng-click="next()"></i>
+</div>
+<div class="week names">
+    <span class="day">Tuần </span>
+    <span class="day">Thứ 2 </span>
+    <span class="day">Thứ 3 </span>
+    <span class="day">Thứ 4 </span>
+    <span class="day">Thứ 5 </span>
+    <span class="day">Thứ 6 </span>
+    <span class="day">Thứ 7 </span>
+    <span class="day">CN </span>
+</div>
+<div class="week" ng-repeat="week in weeks">
+    <span class="day"></span>
+    <span class="day" 
+          ng-class="{ today: day.isToday, 'different-month': !day.isCurrentMonth, selected: day.date.isSame(selected) }" 
+          ng-click="select(day)" ng-repeat="day in week.days" > 
+        {{'{{day.number}}'}}</span>
+    </span>
+</div>
+

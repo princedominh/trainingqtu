@@ -1,0 +1,69 @@
+services:
+    sonata.admin.faculty:
+        class: QTU\TkbBundle\Admin\FacultyAdmin
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: "Tkb", label: "tkb.faculty"}
+        arguments:
+            - ~
+            - QTU\TkbBundle\Entity\Faculty
+            - ~
+        calls:
+            - [ setTranslationDomain, [QTUTkbBundle]]
+    sonata.admin.classp:
+        class: QTU\TkbBundle\Admin\ClassPAdmin
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: "Tkb", label: "tkb.classp"}
+        arguments:
+            - ~
+            - QTU\TkbBundle\Entity\ClassP
+            - ~
+        calls:
+            - [ setTranslationDomain, [QTUTkbBundle]]
+    sonata.admin.course:
+        class: QTU\TkbBundle\Admin\CourseAdmin
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: "Tkb", label: "tkb.course.title"}
+        arguments:
+            - ~
+            - QTU\TkbBundle\Entity\Course
+            - ~
+        calls:
+            - [ setTranslationDomain, [QTUTkbBundle]]
+            - [ setTemplate, [edit, QTUTkbBundle:Admin:edit.html.twig]]
+            - [ setTemplate, [list, SonataAdminBundle:CRUD:list2.html.twig]]
+    sonata.admin.room:
+        class: QTU\TkbBundle\Admin\RoomAdmin
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: "Tkb", label: "tkb.room.title"}
+        arguments:
+            - ~
+            - QTU\TkbBundle\Entity\Room
+            - ~
+        calls:
+            - [ setTranslationDomain, [QTUTkbBundle]]
+            - [ setTemplate, [edit, QTUTkbBundle:Admin:edit.html.twig]]
+    sonata.admin.term:
+        class: QTU\TkbBundle\Admin\TermAdmin
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: "Tkb", label: "tkb.term.title"}
+        arguments:
+            - ~
+            - QTU\TkbBundle\Entity\Term
+            - ~
+        calls:
+            - [ setTranslationDomain, [QTUTkbBundle]]
+            - [ setTemplate, [edit, QTUTkbBundle:Admin:edit.html.twig]]
+            - [ setTemplate, [list, SonataAdminBundle:CRUD:list2.html.twig]]
+    sonata.admin.subject:
+        class: QTU\TkbBundle\Admin\SubjectAdmin
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: "Tkb", label: "tkb.subject.title"}
+        arguments:
+            - ~
+            - QTU\TkbBundle\Entity\Subject
+            - ~
+        calls:
+            - [ setTranslationDomain, [QTUTkbBundle]]
+            - [ setTemplate, [edit, QTUTkbBundle:Admin:edit.html.twig]]
+            - [ setTemplate, [list, SonataAdminBundle:CRUD:list2.html.twig]]
+            

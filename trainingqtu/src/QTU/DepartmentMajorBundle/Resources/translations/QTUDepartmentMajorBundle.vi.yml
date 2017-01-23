@@ -1,2 +1,22 @@
+
 Department: "Khoa"
+"Department List": "Danh sách Khoa"
+
 Major: "Ngành"
+"Major List": "Danh sách Ngành"
+
+MajorDetails: "Chi tiết ngành"
+"Major Details": "Chi tiết ngành"
+"Major Details List": "Danh sách Chi tiết ngành"
+
+
+TrainingForm: "Hình thức đào tạo"
+"Training Form": "Hình thức đào tạo"
+"Training Form List": "Danh sách Hình thức đào tạo"
+
+TrainingLevel: "Trình độ đào tạo"
+"Training Level": "Trình độ đào tạo"
+"Training Level List": "Danh sách Trình độ đào tạo"
+
+Action: "Hành động"
+Name: "Tên"

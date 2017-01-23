@@ -1,0 +1,33 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Thống kê{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/tkb_lien.css') }}" />
+    
+    {#<link rel="stylesheet" type="text/css" href="//select2.github.io/select2/select2-3.4.1/select2.css">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//t0m.github.io/select2-bootstrap-css/select2-bootstrap.css">#}
+{% endblock %}
+
+{% block body %}
+        <div class="row">
+            <div class="large-12 columns">
+                <h1>Thời khóa biểu - Trang Thống kê</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-3 medium-4 columns">
+                <ul class="side-nav">
+                    <li><a href="{{ path('qtu_tkb_report_combineclass') }}">Lớp ghép</a></li>
+                    <li><a href="{{ path('qtu_tkb_coincidence_room') }}">Trùng phòng</a></li>
+                    <li><a href="{{ path('qtu_tkb_coincidence_class') }}">Trùng lịch của lớp</a></li>
+                    <li><a href="{{ path('qtu_tkb_coincidence_instructor') }}">Trùng lịch giảng viên</a></li>
+                </ul>
+            </div>
+            <div class="large-9 medium-8 columns">
+                
+            </div>
+        </div>
+{% endblock %}

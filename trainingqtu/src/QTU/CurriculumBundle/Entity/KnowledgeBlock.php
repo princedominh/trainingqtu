@@ -8,7 +8,7 @@ namespace QTU\CurriculumBundle\Entity;
 class KnowledgeBlock
 {
     /**
-     * @var boolean
+     * @var integer
      */
     private $id;
 
@@ -18,10 +18,14 @@ class KnowledgeBlock
     private $name;
 
 
+    public function __toString() {
+        return $this->name;
+    }
+
     /**
      * Get id
      *
-     * @return boolean
+     * @return integer
      */
     public function getId()
     {

@@ -33,6 +33,10 @@ class Term
     private $description;
 
 
+    public function __toString() {
+        return $this->semester . ' - ' .$this->year;
+    }
+
     /**
      * Get id
      *

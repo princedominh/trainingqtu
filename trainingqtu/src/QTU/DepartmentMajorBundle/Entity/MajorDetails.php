@@ -15,7 +15,7 @@ class MajorDetails
     /**
      * @var string
      */
-    private $code;
+//    private $code;
 
     /**
      * @var string
@@ -37,6 +37,12 @@ class MajorDetails
      */
     private $major;
 
+    public function __toString() {
+        return sprintf('%s, %s, %s',$this->major->getShortname(),
+                $this->trainingLevel->getShortname(),
+                $this->trainingForm->getShortname()
+                );
+    }
 
     /**
      * Get id
@@ -55,22 +61,22 @@ class MajorDetails
      *
      * @return MajorDetails
      */
-    public function setCode($code)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
+//    public function setCode($code)
+//    {
+//        $this->code = $code;
+//
+//        return $this;
+//    }
 
     /**
      * Get code
      *
      * @return string
      */
-    public function getCode()
-    {
-        return $this->code;
-    }
+//    public function getCode()
+//    {
+//        return $this->code;
+//    }
 
     /**
      * Set note

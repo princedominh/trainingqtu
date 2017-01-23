@@ -18,6 +18,7 @@ class MajorAdmin extends AbstractAdmin
         $datagridMapper
             ->add('shortname')
             ->add('fullname')
+            ->add('code')
         ;
     }
 
@@ -29,6 +30,7 @@ class MajorAdmin extends AbstractAdmin
         $listMapper
             ->add('shortname')
             ->add('fullname')
+            ->add('code')
             ->add('department')
             ->add('_action', null, array(
                 'actions' => array(
@@ -47,6 +49,7 @@ class MajorAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('department')
+            ->add('code')
             ->add('shortname')
             ->add('fullname')
         ;

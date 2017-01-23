@@ -1,0 +1,90 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Quy định thời giờ giảng dạy{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+<h3>Quy định thời giờ giảng dạy</h3>
+<p>Thực hiện Quyết định số 51/QĐ-ĐHQT ngày 30 tháng 01 năm 2016 của Hiệu trưởng Trường Đại học Quang Trung về việc Ban hành Quy định về Công tác đào tạo tại Trường Đại học Quang Trung; <br/>
+Căn cứ tình hình thực tế về thời gian hoạt động giảng dạy tại Trường, Phòng Đào tạo thông báo việc áp dụng thay đổi thời gian hoạt động giảng dạy mới tại các cơ sở của Trường Đại học Quang Trung như sau:</p>
+<table width="50%" align="center">
+  <thead>
+    <tr>
+      <th>Buổi</th>
+      <th>Tiết học</th>
+      <th>Giờ học</th>
+      <th>Thời gian nghỉ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="4">Sáng</td>
+      <td>1</td>
+      <td>07h20 – 08h10</td>
+      <td>Không</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>08h10 – 09h00</td>
+      <td>Giải lao 20 phút</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>9h20 - 10h10</td>
+      <td>Không</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>10h10 - 11h00</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td rowspan="4">Chiều</td>
+      <td>5</td>
+      <td>13h00 – 13h50</td>
+      <td>Không</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>13h50 - 14h40</td>
+      <td>Giải lao 20 phút</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>15h00 - 15h50</td>
+      <td>Không</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>15h50 - 16h40</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td rowspan="3">Tối</td>
+      <td>9</td>
+      <td>18h30 - 19h20</td>
+      <td>Không</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>19h20 - 20h10</td>
+      <td>Không</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>20h10 - 21h00</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+<p>Các đơn vị và cán bộ, giảng viên, sinh viên trong toàn trường nghiêm túc thực hiện.</p>
+
+{% endblock body %}

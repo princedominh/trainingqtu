@@ -1,0 +1,109 @@
+qtu_tkb_homepage:
+    path:     /tkb
+    defaults: { _controller: QTUTkbBundle:Default:index }
+#    defaults: { _controller: QTUTkbBundle:Default:timetable }
+
+qtu_tkb_template:
+    path:   /tkb/templates/{name1}/{name2}
+    defaults: { _controller: QTUTkbBundle:Template:index, name1: calendar1.html, name2: '' }
+qtu_tkb_timetable_class_filter_json:
+    path:     /tkb/timetableclass/filter_json
+    defaults: { _controller: QTUTkbBundle:Default:classFilterJson }
+qtu_tkb_instructor_timetable_term_filter_json:
+    path:     /tkb/mytimetable/term_filter_json
+    defaults: { _controller: QTUTkbBundle:MyTimeTable:termFilterJson }
+
+qtu_tkb_timetable:
+    path:     /tkb/timetable
+    defaults: { _controller: QTUTkbBundle:Default:timetable }
+qtu_tkb_timetable_class_filter:
+    path:     /tkb/timetableclass/filter
+    defaults: { _controller: QTUTkbBundle:Default:classFilter }
+qtu_tkb_timetable_builder:
+    path:     /tkb/buildtimetable
+    defaults: { _controller: QTUTkbBundle:Builder:index }
+qtu_tkb_timetable_filter:
+    path:     /tkb/buildtimetable/filter
+    defaults: { _controller: QTUTkbBundle:Builder:filter }
+qtu_tkb_timetable_builder_instructor:
+    path:     /tkb/buildtimetable/instructor
+    defaults: { _controller: QTUTkbBundle:Builder:instructor }
+qtu_tkb_timetable_builder_save:
+    path:     /tkb/buildtimetable/save
+    defaults: { _controller: QTUTkbBundle:Builder:save }
+
+qtu_tkb_room_byday:
+    path:     /tkb/room/day
+    defaults: { _controller: QTUTkbBundle:LectureHall:day }
+qtu_tkb_room_byweek:
+    path:     /tkb/room/week
+    defaults: { _controller: QTUTkbBundle:LectureHall:week }
+qtu_tkb_room:
+    path:     /tkb/room
+    defaults: { _controller: QTUTkbBundle:LectureHall:week }
+qtu_tkb_room_eachweek:
+    path:     /tkb/room/each
+    defaults: { _controller: QTUTkbBundle:LectureHall:eachWeek }
+qtu_tkb_room_filter:
+    path:     /tkb/room/filter
+    defaults: { _controller: QTUTkbBundle:LectureHall:filter }
+qtu_tkb_room_savedetail:
+    path:     /tkb/room/day/savedetail
+    defaults: { _controller: QTUTkbBundle:LectureHall:saveDetail }
+
+
+
+
+qtu_tkb_report:
+    path:     /report
+    defaults: { _controller: QTUTkbBundle:Report:index }
+qtu_tkb_report_combineclass:
+    path:     /report/combineclass
+    defaults: { _controller: QTUTkbBundle:Report:combineClass }
+qtu_tkb_coincidence_room:
+    path:   /report/coincidenceroom
+    defaults: { _controller: QTUTkbBundle:Report:findCoincidenceRoom }
+qtu_tkb_coincidence_room_detail:
+    path:   /report/coincidenceroom/detail
+    defaults: { _controller: QTUTkbBundle:Report:findCoincidenceRoomDetail }
+qtu_tkb_coincidence_instructor:
+    path:   /report/coincidenceinstructor
+    defaults: { _controller: QTUTkbBundle:Report:findCoincidenceInstructor }
+qtu_tkb_coincidence_instructor_detail:
+    path:   /report/coincidenceinstructor/detail
+    defaults: { _controller: QTUTkbBundle:Report:findCoincidenceInstructorDetail }
+qtu_tkb_coincidence_class:
+    path:   /report/coincidenceclass
+    defaults: { _controller: QTUTkbBundle:Report:findCoincidenceClass }
+qtu_tkb_coincidence_class_detail:
+    path:   /report/coincidenceclass/detail
+    defaults: { _controller: QTUTkbBundle:Report:findCoincidenceClassDetail }
+    
+qtu_tkb_time:
+    path:     /time
+    defaults: { _controller: QTUTkbBundle:Time:index }
+
+qtu_tkb_swiftmailer:
+    path:     /swiftmailer
+    defaults: { _controller: QTUTkbBundle:SwiftMailer:sendMail }
+
+qtu_tkb_mytimetable:
+    path:     /mytimetable
+    defaults: { _controller: QTUTkbBundle:MyTimeTable:index }
+qtu_tkb_mytimetable_instructor:
+    path:     /mytimetable/instructor
+    defaults: { _controller: QTUTkbBundle:MyTimeTable:instructor }
+
+qtu_tkb_faculty:
+    path:     /faculty
+    defaults: { _controller: QTUTkbBundle:Faculty:index }
+
+qtu_tkb_about:
+    path:     /about
+    defaults: { _controller: QTUTkbBundle:AboutUs:index }
+
+qtu_tkb_whatsnew:
+    path:     /whatsnew
+    defaults: { _controller: QTUTkbBundle:WhatsNew:index }
+
+    

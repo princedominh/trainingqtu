@@ -3,7 +3,7 @@ QTU\CurriculumBundle\Entity\KnowledgeBlock:
     table: qtu_knowledge_block
     id:
         id:
-            type: boolean
+            type: smallint
             nullable: false
             id: true
             generator:

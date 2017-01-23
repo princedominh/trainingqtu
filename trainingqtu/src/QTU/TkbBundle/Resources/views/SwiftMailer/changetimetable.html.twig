@@ -1,0 +1,20 @@
+<p>Kính gửi quý thầy/cô {{ user.lastname }} {{ user.firstname }} ,</p>
+
+<p>Phòng Đào tạo thông báo đã có sự thay đổi lịch giảng dạy của giảng viên, cụ thể như sau:</p>
+<ul>
+    {% for detail in details %}
+    <li>{{ detail }}</li>
+    {% endfor %}
+</ul>
+<p>Kính đề nghị giảng viên cập nhật lại thay đổi.</p>
+
+<p>Truy cập <a href="http://tkb.qtu.edu.vn">tkb.quangtrung.edu.vn</a> để xem lịch</p>
+
+<p>Người thay đổi: {{ app.user.username }}</p>
+
+<p>-- Đây là phiên bản email cho giáo viên đầu tiên, còn nhiều bất tiện (về số lượng email, khối lượng thông tin chưa chi tiết), 
+    mong quý thầy cô thông cảm. Hệ thống sẽ có sự nâng cấp tiếp theo để thuận tiện hơn cho quý thầy cô--</p>
+<p>-- 
+Hệ thống Thời khóa biểu <br />
+&copy; 2016 - Phòng Đào tạo
+</p>

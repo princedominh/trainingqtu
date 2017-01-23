@@ -67,13 +67,26 @@ sonata_admin:
                     - sonata.user.admin.group 
                 roles: [ROLE_SUPER_ADMIN]
                     
+            Curriculum: 
+                label: Curriculum
+                icon: "%sonata.curriculum.groupicon%" 
+                items: 
+                    - qtu_curriculum.admin.subject
+                    - qtu_curriculum.admin.curriculum_for_major
+                    - qtu_curriculum.admin.knowledge_block
+                roles: [ROLE_TRAINING_AGENT, ROLE_SUPER_ADMIN]
+
             DepartmentMajor: 
                 label: DepartmentMajor
                 icon: "%sonata.department.groupicon%" 
                 items: 
                     - qtu_department_major.admin.department
                     - qtu_department_major.admin.major
+                    - qtu_department_major.admin.major_details
+                    - qtu_department_major.admin.training_form
+                    - qtu_department_major.admin.training_level
                 roles: [ROLE_TRAINING_AGENT, ROLE_SUPER_ADMIN]
+                
             Mark:
                 label: Mark
                 icon: "%sonata.mark.marktype%"

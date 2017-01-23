@@ -1,0 +1,10 @@
+{% extends "SonataAdminBundle:CRUD:base_edit.html.twig" %}
+
+{% block form %}
+    {{ parent()}}
+    {{ tinymce_init() }}
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('/bundles/applicationsonataadmin/css/appsonata.css') }}">
+{% endblock %}

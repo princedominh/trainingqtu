@@ -8,7 +8,7 @@ namespace QTU\StudentBundle\Entity;
 class StudentStatus
 {
     /**
-     * @var boolean
+     * @var integer
      */
     private $id;
 

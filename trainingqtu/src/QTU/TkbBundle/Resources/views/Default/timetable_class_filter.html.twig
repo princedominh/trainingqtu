@@ -1,0 +1,156 @@
+<div style=" overflow-x: scroll;">
+<table style="width:100%">
+    <thead>
+        <tr>
+            <th rowspan="3">Thông tin học phần</th>
+            <th colspan="7">
+                <div class="row">
+                    <div class="small-1 columns"><a title="Tuần trước" id="previous-week"><i class="fi-arrow-left"></i></a></div>
+                    <div class="small-10 columns weekinschedule" id="current-week"></div>
+                    <div class="small-1 columns"><a title="Tuần tiếp theo" id="next-week"><i class="fi-arrow-right"></i></a></div>
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th class="dateofweek">2</th>
+            <th class="dateofweek">3</th>
+            <th class="dateofweek">4</th>
+            <th class="dateofweek">5</th>
+            <th class="dateofweek">6</th>
+            <th class="dateofweek">7</th>
+            <th class="dateofweek">CN</th>
+        </tr>
+        <tr>
+            <th class="dateinschedule">11/5</th>
+            <th class="dateinschedule">12/5</th>
+            <th class="dateinschedule">13/5</th>
+            <th class="dateinschedule">14/5</th>
+            <th class="dateinschedule">15/5</th>
+            <th class="dateinschedule">16/5</th>
+            <th class="dateinschedule">17/5</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr class="row_cid_{{ course.id }}" course_id="{{ course.id }}">
+            <td>
+                <a data-tooltip aria-haspopup="true" data-options="hover_delay: 0;" data-width="310" class="has-tip" title="<div class='row'><strong>{{ course.name }}</strong>
+                    <ul class='custom-list-class'>
+                        <li>
+                            Giảng viên:
+                            {% for instructor in course.instructors %}
+                                 {{ instructor.lastname }} {{ instructor.firstname }}{%if not loop.last %},{%endif%} 
+                            {% endfor%}
+                        </li>
+                        <li>
+                            Lớp: 
+                            {% for classP in course.classes %}
+                                {{ classP.name }}{%if not loop.last %},{%endif%} 
+                            {% endfor%}
+                        </li>
+                        <li>
+                            Số tiết: LT {{ course.classHours }}{%if course.labHours > 0%} TH {{ course.labHours }}{%endif%}
+                        </li>
+                    </ul></div>">
+                {{ course.name }}
+                {% if course.getNeedProjector %}<i class="fi-projection-screen" title="Máy chiếu"></i>{% endif %}
+                {% if course.getNeedMic %}<i class="fi-microphone" title="Máy chiếu"></i>{% endif %}
+                </a>
+<!--
+                <blockquote>
+                    <div>
+                        {% for instructor in course.instructors %}
+                            GV: {{ instructor.lastname }} {{ instructor.firstname }}
+                        {% endfor%}
+                    </div>
+                    <div>                
+                        {% for classP in course.classes %}
+                            Lớp: {{ classP.name }}
+                        {% endfor%}
+                    </div>
+                    <div>
+                        Số tiết: <span class="label">LT {{ course.classHours }}</span>{%if course.labHours > 0%} <span class="round label">TH {{ course.labHours }}</span>{%endif%}
+                    </div>
+                </blockquote>
+                -->
+            </td>
+            <td class="cell_details"></td>
+            <td class="cell_details"></td>
+            <td class="cell_details"></td>
+            <td class="cell_details"></td>
+            <td class="cell_details"></td>
+            <td class="cell_details"></td>
+            <td class="cell_details"></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<script>
+    var course_data= [
+        {% for course in courses %}
+                { id:{{course.id}}, detail: [
+                    {% for detail in course.getScheduleDetails%}
+                        {   id: {{detail.id}}, dateOccur: '{{detail.dateOccur|date('d/m/Y') }}', period: '{{detail.period}}', description: '{{detail.description}}', hasDone: '{{detail.hasDone}}', inLate: {{detail.inLate}}, outSoon: {{detail.outSoon}}, room: '{{detail.room.name}}', type: '{{detail.typeDetail}}' } {%if not loop.last %},{%endif%}
+                    
+                    {% endfor %}                         
+                ]} {%if not loop.last %},{%endif%}
+
+        {% endfor %}
+    ];
+    
+    function loadWeek(week){
+        var t_d = 0;
+        $("#current-week").text("Tuần "+ (week+1) + " ("+schedule_data[week].data[0].date+" đến "+schedule_data[week].data[6].date+")");
+        
+        //reset period
+        $(".cell_details").html("");
+        
+        $(".dateinschedule").each(function(){
+            $(this).text(schedule_data[week].data[t_d].shortdate);
+            for(var i=0; i<course_data.length; i++) {
+                for(var j=0; j<course_data[i].detail.length; j++) {
+                    if(schedule_data[week].data[t_d].date == course_data[i].detail[j].dateOccur){                        
+                        $(".row_cid_"+course_data[i].id+" .cell_details").eq(t_d).html($(".row_cid_"+course_data[i].id+" .cell_details").eq(t_d).html()+'<span class="'+class_period[course_data[i].detail[j].period].class+'">'+course_data[i].detail[j].period+' <i>'+course_data[i].detail[j].room+'</i></span>');
+                    }
+                }
+            }
+            t_d++;
+        });
+    }
+    $(document).foundation();
+    $(function() {
+        var currentWeek = parseInt($("select[name='week'] option:selected").val());
+        var countWeek = schedule_data.length;
+        loadWeek(currentWeek);
+        
+        $("#next-week").on("click",function(){
+            currentWeek = parseInt($("select[name='week'] option:selected").val());
+            if(currentWeek+1>=countWeek) {
+                console.log("Vượt quá");
+            } else {
+                currentWeek = currentWeek + 1;
+                //$("select[name='week'] option:selected").removeAttr("selected");
+                $("select[name='week'] option").each(function(){
+                    $(this).removeAttr('selected');
+                });
+                $("select[name='week']").find("option[value='"+currentWeek+"']").attr('selected', 'selected').trigger('change');
+            }
+        });
+        $("#previous-week").on("click",function(){
+            currentWeek = parseInt($("select[name='week'] option:selected").val());
+            if(currentWeek-1<0) {
+                console.log("Nhỏ quá");
+            } else {
+                currentWeek = currentWeek - 1;
+                //$("select[name='week'] option:selected").removeAttr("selected");
+                
+                $("select[name='week'] option").each(function(){
+                    $(this).removeAttr('selected');
+                });
+                $("select[name='week']").find("option[value='"+currentWeek+"']").attr('selected', 'selected').trigger('change');
+            }
+        });
+    });
+    
+</script>

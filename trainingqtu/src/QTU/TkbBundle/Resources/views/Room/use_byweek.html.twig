@@ -1,0 +1,247 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Theo tuần - Sử dụng phòng{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tkb.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>Thời khóa biểu - Sử dụng phòng</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="large-4 columns">
+            <select name="week"></select>
+        </div>
+        <div class="large-4 columns">
+            &nbsp;
+        </div>
+        <div class="large-4 columns">
+            <select name="view" id="select_week_date">
+                <option value="week">Theo tuần</option>
+                <option value="day">Theo ngày</option>
+                <option value="filter">Lọc theo phòng</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="loading"></div>
+        <div class="large-12 columns" id="week_table">
+            <table>
+            <thead>
+                <tr>
+                    <th rowspan="3" style="text-align: center;">
+                        Phòng <a class="button tiny" id="filter_room" ><i class="fi-filter"></i> Lọc phòng</a>
+                        <br> <a class="button tiny secondary" id="reset_fileter_room" >Hủy lọc</a>
+                    </th>
+                    <th colspan="7">
+                        <div class="row">
+                            <div class="small-1 columns"><a title="Tuần trước" id="previous-week"><i class="fi-arrow-left"></i></a></div>
+                            <div class="small-10 columns weekinschedule" id="current-week-room">Tuần</div>
+                            <div class="small-1 columns"><a title="Tuần tiếp theo" id="next-week"><i class="fi-arrow-right"></i></a></div>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="dateofweek-room">2</th>
+                    <th class="dateofweek-room">3</th>
+                    <th class="dateofweek-room">4</th>
+                    <th class="dateofweek-room">5</th>
+                    <th class="dateofweek-room">6</th>
+                    <th class="dateofweek-room">7</th>
+                    <th class="dateofweek-room">CN</th>
+                </tr>
+                <tr>
+                    <th class="dateinschedule-room">11/5</th>
+                    <th class="dateinschedule-room">12/5</th>
+                    <th class="dateinschedule-room">13/5</th>
+                    <th class="dateinschedule-room">14/5</th>
+                    <th class="dateinschedule-room">15/5</th>
+                    <th class="dateinschedule-room">16/5</th>
+                    <th class="dateinschedule-room">17/5</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr class="row_rid_{{ room.id }}" room_id="{{ room.id }}">
+                    <td>
+                        <label for="check_room_id_{{ room.id }}"><input type="checkbox" id="check_room_id_{{ room.id }}" name="check_room_id_{{ room.id }}" row="row_rid_{{ room.id }}" /> 
+                         {{ room.name }}{% if (room.hasprojector) %} <i class="fi-projection-screen" title="Máy chiếu"></i>{% endif %}
+                         {% if (room.typeRoom=='Phòng thực hành máy tính') %} <i class="fi-laptop" title="Máy tính"></i>{% endif %}
+                        </label>
+                    </td>
+                    <td class="cell_details_room" data_used=",">1</td>
+                    <td class="cell_details_room" data_used=",">2</td>
+                    <td class="cell_details_room" data_used=",">3</td>
+                    <td class="cell_details_room" data_used=",">4</td>
+                    <td class="cell_details_room" data_used=",">5</td>
+                    <td class="cell_details_room" data_used=",">6</td>
+                    <td class="cell_details_room" data_used=",">7</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+{#    <ol class="joyride-list" data-joyride>
+        <li data-id="select_week_date" data-button="Ok" data-options="tip_location: right; prev_button: false">
+            <p>Khám phá tính năng mới: <br/>Xem theo ngày hoặc theo tuần</p>
+        </li>
+    </ol>
+#}{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+{#    <script src="{{ asset('js/vendor/jquery.cookie.js') }}"></script> #}
+    <script src="{{ asset('js/tkb.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/vendor/jquery.tkb.js') }}"></script>
+    <script>
+    var currentWeek = 0;
+    function parseUrl(){
+        var params = $(location).attr('hash').replace('#', '').split('&');
+        var week = 1;
+{#        var mclass = '';#}
+        for(var i = 0; i < params.length; i++){
+            var subparams = params[i].split('=');
+            if (subparams[0] == 'week') week = parseInt(subparams[1]);
+        }
+        if (week != 1) {
+            $("select[name='week'] option:selected").removeAttr("selected");
+            $("select[name='week']").find("option[value='"+(week-1)+"']").attr('selected', 'selected');
+        }
+    }
+    function updateUrl(isReload) {
+        var protocol = $(location).attr('protocol');
+        var host = $(location).attr('host');
+        var pathname = $(location).attr('pathname');
+
+{#        var mclass = $("input[name='week']").val();#}
+        
+        window.location.href = protocol + '//' + host + pathname + '#week=' + (currentWeek+1);
+    }
+    function isCurentWeek(startdate, enddate) {
+        var sdate = moment(startdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var edate = moment(enddate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var currdate = moment().format('YYYY-MM-DD');
+
+        return moment(currdate).isBetween(sdate, edate) || moment(currdate).isSame(sdate) || moment(currdate).isSame(edate);
+    }
+    function loadRoomWeekFast(week){
+        var startDate = week>0 ? schedule_data[(week-1)].data[6].date : schedule_data[(week)].data[0].date;
+        var endDate = schedule_data[week].data[6].date;
+        $(".cell_details_room").text('');
+        $("#week_table").hide();
+        $(".loading").html('<img src="{{ asset('images/loading.gif')}}" />');
+        $.ajax({
+            url: '{{ url('qtu_tkb_room_eachweek')}}',
+            data: {start: startDate, end: endDate},
+            success: function(response) {
+                if(response.success == 'success'){
+                    $("#current-week-room").text("Tuần "+ (week+1) + " ("+schedule_data[week].data[0].date+" đến "+schedule_data[week].data[6].date+")");
+                    var t_d = 0;
+                    $(".dateinschedule-room").each(function(){
+                        $(this).text(schedule_data[week].data[t_d].shortdate);
+                        t_d++;
+                    });
+
+                    for(var i=0; i<response.data.length; i++) {
+                        var span = "<span  \
+                                    class='"+class_period[response.data[i].period].class+"' \
+                                    title='"+response.data[i].course.classes+" - "+response.data[i].course.name+" - "+response.data[i].course.instructors+"'>"+response.data[i].period+"</span>";
+                        $("tr[room_id='"+response.data[i].room+"'] td").eq(parseInt(response.data[i].N)).append(span);
+                    }
+                    $("#week_table").show();
+                    $(".loading").html('');
+                    $(document).foundation();
+                }
+            }
+        });                
+        updateUrl(false);
+{#        $(document).foundation();#}
+    }
+    
+    function filter_room(){
+        $("input[id^='check_room_id_']").each(function () {
+            if($(this).prop('checked')){
+            } else {
+                $("tr[class='"+$(this).attr('row')+"']").hide();
+                console.log($(this).attr('row'));
+            }
+        });
+    }
+    function reset_fileter_room(){
+        console.log("raa");
+        $("input[id^='check_room_id_']").each(function () {
+            console.log($(this).attr('row'));
+            $("tr[class='"+$(this).attr('row')+"']").show();
+        });
+    }
+    $(function() {
+        countWeek = schedule_data.length;
+        /*********** Init Week ***********/
+        for(var i=0; i<schedule_data.length; i++)
+        {
+            if (isCurentWeek(schedule_data[i].data[0].date, schedule_data[i].data[6].date)) {
+                $("select[name='week']").append($('<option></option>').attr('value', i).text(schedule_data[i].weekname+ " ("+schedule_data[i].data[0].date+" đến "+schedule_data[i].data[6].date+")").attr('selected', 'selected'));
+            }
+            else {
+                $("select[name='week']").append($('<option></option>').attr('value', i).text(schedule_data[i].weekname+ " ("+schedule_data[i].data[0].date+" đến "+schedule_data[i].data[6].date+")"));
+            }
+            
+        }
+        /*********** End Init Week ***********/        
+
+        parseUrl();
+        currentWeek = parseInt($("select[name='week']").val());
+        $(document).foundation('joyride', 'start');
+        loadRoomWeekFast(currentWeek);
+
+        $("#next-week").on("click",function(){
+            if(currentWeek+1>=countWeek) {
+                console.log("Vượt quá");
+            } else {
+                currentWeek++;
+                $("select[name='week'] option").eq(currentWeek).attr('selected', "selected");
+                $("select[name='week']").change();
+            }
+        });
+        $("#previous-week").on("click",function(){
+            if(currentWeek-1<0) {
+                console.log("Nhỏ quá");
+            } else {
+                currentWeek--;
+                $("select[name='week'] option").eq(currentWeek).attr('selected', "selected");
+                $("select[name='week']").change();
+            }
+        });
+        $("select[name='week']").on("change", function(){
+            currentWeek = parseInt($("select[name='week']").val());
+            loadRoomWeekFast(currentWeek);
+        });       
+        $("select[name='view']").on("change", function(){
+            switch ($("select[name='view']").val()) {
+                case 'week': 
+                    location.href = "{{ path('qtu_tkb_room_byweek')}}";
+                    break;
+                case 'day':
+                    location.href = "{{ path('qtu_tkb_room_byday')}}";
+                    break;
+                case 'filter':
+                    location.href = "{{ path('qtu_tkb_room_filter')}}";
+                    break;
+            }
+        });
+        
+        $("#filter_room").on("click", filter_room);
+        $("#reset_fileter_room").on("click", reset_fileter_room);
+        
+        $(document).foundation();
+    });
+    </script>
+{% endblock javascripts %}

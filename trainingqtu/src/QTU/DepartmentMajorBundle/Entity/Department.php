@@ -25,6 +25,11 @@ class Department
     /**
      * @var string
      */
+    private $slug;
+
+    /**
+     * @var string
+     */
     private $address;
 
     /**
@@ -47,6 +52,14 @@ class Department
      */
     private $description;
 
+    /**
+     * @var boolean
+     */
+    private $is_student_management = true;
+
+    public function __toString() {
+        return $this->shortname;
+    }
 
     /**
      * Get id
@@ -104,6 +117,29 @@ class Department
     public function getFullname()
     {
         return $this->fullname;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Department
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**
@@ -225,4 +261,28 @@ class Department
     {
         return $this->description;
     }
+    
+    /**
+     * Set isStudentManagement
+     *
+     * @param boolean $isManageStudent
+     * @return Department
+     */
+    public function setIsStudentManagement($isStudentManagement)
+    {
+        $this->is_student_management = $isStudentManagement;
+
+        return $this;
+    }
+
+    /**
+     * Get isStudentManagement
+     *
+     * @return boolean 
+     */
+    public function getIsStudentManagement()
+    {
+        return $this->is_student_management;
+    }
+
 }

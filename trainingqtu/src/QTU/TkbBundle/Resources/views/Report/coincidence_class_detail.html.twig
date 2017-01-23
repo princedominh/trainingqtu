@@ -1,0 +1,4 @@
+{%if coincidences is empty %}not coincidence{%else%}
+{% for coincidence in coincidences %}
+    <span class="label alert round">{{coincidence.d1.dateOccur |date("d/m/Y")}}{# - ({%for class_p in coincidence.d1.classes%}{{class_p.name}}{%if not loop.last%},{%endif%}{%endfor%}) và ({%for class_p2 in coincidence.d2.classes%}{{class_p2.name}}{%if not loop.last%},{%endif%}{%endfor%})#}</span>
+{% endfor %}{%endif%}

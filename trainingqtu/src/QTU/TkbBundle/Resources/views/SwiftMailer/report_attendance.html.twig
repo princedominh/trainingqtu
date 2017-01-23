@@ -1,0 +1,22 @@
+<p>Kính gửi quý thầy/cô {{ user.lastname }} {{ user.firstname }} ,</p>
+
+<p>Hệ thống TKB thông báo ghi nhận của bộ phận quản lý giảng đường về sự thay đổi cụ thể như sau:</p>
+
+<table >
+    <tr>
+        <th style="text-align: left;">Tên môn</th>
+        <td>{{ course.name }} - lớp {{ classes }}</td>
+    </tr>
+    <tr><th style="text-align: left;">Tiết được phân công</th> <td>{{ schedule_detail.period }}</td></tr>
+    <tr><th style="text-align: left;">Số tiết thực hiện được ghi nhận</th> <td>{{ schedule_detail.hasDone }}</td></tr>
+    {%if schedule_detail.hasDone==0 %}<tr><th>Trạng thái</th> <td><b>Giảng viên không thực hiện tiết giảng theo lịch.</b></td></tr>{%endif%}
+    {%if schedule_detail.inLate %}<tr><th></th> <td>Thực hiện tiết học trễ.</td></tr>{%endif%}
+    {%if schedule_detail.description!="" %}<tr><th style="text-align: left;">Các ghi chú khác</th> <td>{{ schedule_detail.description }}</td></tr>{%endif%}
+</table>
+
+<p>Người xác nhận :{{ app.user.username }}</p>
+
+<p>-- Đây là hệ thống email tự động. Nếu có bất kỳ thắc mắc nào về việc xác nhận thực hiện giảng dạy, kính mong quý thầy cô liên hệ bộ phận quản lý giảng đường để được giải đáp.--</p>
+<p>Hệ thống Thời khóa biểu <br />
+&copy; 2016 - Phòng Đào tạo
+</p>
